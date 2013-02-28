@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Whac-a-mole</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="start">START</string>
+    <string name="restart">RESTART</string>
+    <string name="close">CLOSE</string>
+    <string name="point_title">POINT : </string>
+    <string name="point_init">0</string>
+
+</resources>
