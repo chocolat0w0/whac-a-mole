@@ -9,5 +9,6 @@
     <string name="close">CLOSE</string>
     <string name="point_title">POINT : </string>
     <string name="point_init">0</string>
+    <string name="rest_time">REST TIME : </string>
 
 </resources>
