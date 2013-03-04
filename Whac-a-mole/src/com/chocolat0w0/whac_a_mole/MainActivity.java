@@ -1,21 +1,43 @@
 package com.chocolat0w0.whac_a_mole;
 
+import java.util.Timer;
+
 import android.app.Activity;
-import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
 public class MainActivity extends Activity implements OnClickListener {
 
-	Button btnStart;
+	private static final long TIMER_DELAY = 0;
+	private static final long TIMER_PERIOD = 100;
+	
+	private Button btnStart;
+	private RelativeLayout viewGroup = null;
+	private ViewController viewController = null;
+	private PointController pointController = null;
+	private Timer mTimer;
+	private TimerController timerController;
+	private HoleController holeController = null;
+	private Paint mPaint = null;
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		displayStartMenu();
+		viewGroup = new RelativeLayout(this);
+		viewController = new ViewController(this, viewGroup);
+		pointController = new PointController(viewController);
+		holeController = new HoleController(pointController);
+		viewController.initDisplay(getLayoutInflater().inflate(R.layout.game_menu, viewGroup, isChild()));
+		viewController.displayStartButton(this);
+		setContentView(viewGroup);
+		setListenerOnStartButton();
+
 	}
 
 	@Override
@@ -25,8 +47,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		return true;
 	}
 	
-	private void displayStartMenu() {
-		setContentView(R.layout.start_menu);
+	private void setListenerOnStartButton() {
 		btnStart = (Button) findViewById(R.id.btn_start);
 		btnStart.setOnClickListener(this);
 	}
@@ -44,8 +65,12 @@ public class MainActivity extends Activity implements OnClickListener {
 	}
 
 	private void startGame() {
-		Intent i = new Intent(getApplicationContext(), Game.class);
-		startActivity(i);
+//		Intent i = new Intent(getApplicationContext(), Game.class);
+//		startActivity(i);
+		mTimer = new Timer(true);
+		timerController = new TimerController(viewController);
+		mTimer.schedule(timerController, TIMER_DELAY, TIMER_PERIOD);
+		
 	}
 
 }
