@@ -67,7 +67,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	private void startGame() {
 		viewController.closeStartBtn();
 		mTimer = new Timer(true);
-		timerController = new TimerController(viewController, mTimer);
+		timerController = new TimerController(viewController, holeController, mTimer);
 		mTimer.schedule(timerController, TIMER_DELAY, TIMER_PERIOD);
 	}
 

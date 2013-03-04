@@ -9,14 +9,16 @@ public class TimerController extends TimerTask {
 
 	private Handler mHandler = null;
 	private ViewController viewController = null;
+	private HoleController holeController = null;
 	private Timer mTimer = null;
 	private long startTimeSeconds = 0;
 	private long elapsedTimeSeconds = 0;
 	
-	public TimerController(ViewController viewController, Timer mTimer) {
+	public TimerController(ViewController viewCtr, HoleController holeCtr, Timer mTimer) {
 		super();
 		mHandler = new Handler();
-		this.viewController = viewController;
+		this.viewController = viewCtr;
+		this.holeController = holeCtr;
 		this.mTimer = mTimer;
 		startTimeSeconds = currentTimeSeconds();
 	}
@@ -31,7 +33,7 @@ public class TimerController extends TimerTask {
 				viewController.changeTime(ViewController.LIMIT_TIME_SECONDS - elapsedTimeSeconds);
 				
 				if (elapsedTimeSeconds == 3) {
-					viewController.addMole(3);
+					holeController.createMole(3);
 				}
 				viewController.refresh();
 				
