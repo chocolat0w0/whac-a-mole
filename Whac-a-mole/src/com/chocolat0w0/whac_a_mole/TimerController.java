@@ -1,24 +1,24 @@
 package com.chocolat0w0.whac_a_mole;
 
-import java.util.Currency;
+import java.util.Timer;
 import java.util.TimerTask;
 
 import android.os.Handler;
-import android.widget.RelativeLayout;
 
 public class TimerController extends TimerTask {
 
-	private static final long GAME_TIME_SECONDS = 30;
 	private Handler mHandler = null;
 	private ViewController viewController = null;
+	private Timer mTimer = null;
 	private long startTimeSeconds = 0;
 	private long elapsedTimeSeconds = 0;
 	
-	public TimerController(ViewController viewController) {
+	public TimerController(ViewController viewController, Timer mTimer) {
 		super();
 		mHandler = new Handler();
 		this.viewController = viewController;
-		startTimeSeconds = System.currentTimeMillis() / 1000;
+		this.mTimer = mTimer;
+		startTimeSeconds = currentTimeSeconds();
 	}
 	
 	@Override
@@ -27,10 +27,24 @@ public class TimerController extends TimerTask {
 			
 			@Override
 			public void run() {
-				elapsedTimeSeconds = System.currentTimeMillis() / 1000 - startTimeSeconds; 
-				viewController.changeTime(GAME_TIME_SECONDS - elapsedTimeSeconds);
+				elapsedTimeSeconds = currentTimeSeconds() - startTimeSeconds;
+				viewController.changeTime(ViewController.LIMIT_TIME_SECONDS - elapsedTimeSeconds);
+				
+				if (elapsedTimeSeconds == 3) {
+					viewController.addMole(3);
+				}
+				viewController.refresh();
+				
+				if(ViewController.LIMIT_TIME_SECONDS <= elapsedTimeSeconds) {
+					mTimer.cancel();
+					viewController.displayEndMenu();
+				}
 			}
 		});
+	}
+	
+	private long currentTimeSeconds() {
+		return System.currentTimeMillis() / 1000;
 	}
 
 }

@@ -32,9 +32,9 @@ public class MainActivity extends Activity implements OnClickListener {
 		viewGroup = new RelativeLayout(this);
 		viewController = new ViewController(this, viewGroup);
 		pointController = new PointController(viewController);
-		holeController = new HoleController(pointController);
+		holeController = new HoleController(pointController, viewController);
 		viewController.initDisplay(getLayoutInflater().inflate(R.layout.game_menu, viewGroup, isChild()));
-		viewController.displayStartButton(this);
+		viewController.displayStartButton();
 		setContentView(viewGroup);
 		setListenerOnStartButton();
 
@@ -65,12 +65,10 @@ public class MainActivity extends Activity implements OnClickListener {
 	}
 
 	private void startGame() {
-//		Intent i = new Intent(getApplicationContext(), Game.class);
-//		startActivity(i);
+		viewController.closeStartBtn();
 		mTimer = new Timer(true);
-		timerController = new TimerController(viewController);
+		timerController = new TimerController(viewController, mTimer);
 		mTimer.schedule(timerController, TIMER_DELAY, TIMER_PERIOD);
-		
 	}
 
 }
