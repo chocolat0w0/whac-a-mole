@@ -14,14 +14,21 @@ import android.view.View;
 import android.view.WindowManager;
 
 @SuppressLint("NewApi")
-public class HoleViewController extends View {
-	private Paint mPaint = null;
-	private float radius = 30;
-	Point size = null;
+public class HoleView extends View {
+	private static final int HOLE_NUMBER = 4;
 	
-	public HoleViewController(Context context) {
+	private Paint[] mPaint = new Paint[HOLE_NUMBER];
+	private float radius = 30;
+	private Point size = null;
+	private Canvas canvas;
+	
+	public HoleView(Context context) {
 		super(context);
-		mPaint = new Paint();
+		for (int i = 0; i < HOLE_NUMBER; i++) {
+			mPaint[i] = new Paint();
+			mPaint[i].setColor(Color.GRAY);
+			mPaint[i].setAntiAlias(true);
+		}
 		WindowManager wm = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
 		Display disp = wm.getDefaultDisplay();
 		size = new Point();
@@ -30,13 +37,32 @@ public class HoleViewController extends View {
 	
 	@Override
 	protected void onDraw(Canvas canvas) {
-		mPaint.setColor(Color.GRAY);
-		mPaint.setAntiAlias(true);
-		canvas.drawCircle(size.x / 3, size.y / 3, radius, mPaint);
-		canvas.drawCircle(size.x / 3 * 2, size.y / 3, radius, mPaint);
-		
+		this.canvas = canvas;
+		for (int i = 0; i < HOLE_NUMBER; i++) {
+			drawHole(i);
+		}
 	}
 	
+	private void drawHole(int i) {
+		switch (i) {
+		case 0 :
+			canvas.drawCircle(size.x / 3, size.y / 3, radius, mPaint[i]);
+			break;
+		case 1 :
+			canvas.drawCircle(size.x / 3 * 2, size.y / 3, radius, mPaint[i]);
+			break;
+		case 2 :
+			canvas.drawCircle(size.x / 3, size.y / 3 * 2, radius, mPaint[i]);
+			break;
+		case 3 :
+			canvas.drawCircle(size.x / 3 * 2, size.y / 3 * 2, radius, mPaint[i]);
+			break;
+		default :
+			break;
+		
+		}
+	}
+
 	void overrideGetSize(Display display, Point outSize) {
 	    try {
 	      // test for new method to trigger exception
@@ -58,6 +84,10 @@ public class HoleViewController extends View {
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void addMole(int i) {
+		mPaint[i].setColor(Color.RED);
 	}
 
 }
