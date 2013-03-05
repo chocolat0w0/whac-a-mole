@@ -3,7 +3,6 @@ package com.chocolat0w0.whac_a_mole;
 import java.util.Timer;
 
 import android.app.Activity;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MotionEvent;
@@ -25,8 +24,6 @@ public class MainActivity extends Activity implements OnClickListener {
 	private Timer mTimer;
 	private TimerController timerController;
 	private MoleController moleController = null;
-	private Paint mPaint = null;
-
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
