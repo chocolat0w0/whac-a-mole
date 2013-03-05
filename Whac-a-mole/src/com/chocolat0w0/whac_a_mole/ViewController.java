@@ -8,13 +8,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class ViewController{
-	static final long LIMIT_TIME_SECONDS = 10;
+	// TODO: タイトルバー分タッチポイントがずれるのを修正。動的に取得したい。。。
+	private static final int TITLE_BAR_HEIGHT = 100;
 	
 	private RelativeLayout viewGroup = null;
 	private TextView txtTimer = null;
+	private TextView txtPoint = null;
 	private HoleView holeView = null;
 	private Context context = null;
 	private Button startBtn = null;
+	private static TextView txtDebug = null;
 	
 	public ViewController(Context context, RelativeLayout viewGroup) {
 		this.viewGroup = viewGroup;
@@ -26,9 +29,11 @@ public class ViewController{
 		viewGroup.setBackgroundColor(Color.GREEN);
 		viewGroup.addView(gameStatus);
 		txtTimer = (TextView) gameStatus.findViewById(R.id.txt_timer);
-		String time = secondsToMMSS(LIMIT_TIME_SECONDS);
+		String time = secondsToMMSS(TimerController.LIMIT_TIME_SECONDS);
 		txtTimer.setText(time);
+		txtPoint = (TextView) gameStatus.findViewById(R.id.txt_point);
 		
+		txtDebug = (TextView) gameStatus.findViewById(R.id.textDebug);
 		viewGroup.addView(holeView);
 	}
 	
@@ -76,6 +81,28 @@ public class ViewController{
 	
 	public void refresh() {
 		viewGroup.invalidate();
+	}
+
+	public static void debugInfo(String string) {
+		txtDebug.setText(string);
+	}
+
+	public boolean isHole(float x, float y) {
+		// TODO: タイトルバー分、タッチ位置がずれる！
+		return holeView.isExisted(x, y - TITLE_BAR_HEIGHT);
+	}
+
+	public int touchHoleNum(float x, float y) {
+		return holeView.touchHoleNum(x, y - TITLE_BAR_HEIGHT);
+	}
+
+	public void removeMole(int holeNum) {
+		holeView.removeMole(holeNum);
+		
+	}
+
+	public void changePoint(int totalPoint) {
+		txtPoint.setText(Integer.toString(totalPoint));
 	}
 
 }

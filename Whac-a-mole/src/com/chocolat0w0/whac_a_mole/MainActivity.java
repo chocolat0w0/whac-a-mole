@@ -6,15 +6,17 @@ import android.app.Activity;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
 public class MainActivity extends Activity implements OnClickListener {
-
-	private static final long TIMER_DELAY = 0;
-	private static final long TIMER_PERIOD = 100;
+	
+//	static final long LIMIT_TIME_SECONDS = 10;
+	private static final long TIMER_DELAY_MS = 0;
+	private static final long TIMER_PERIOD_MS = 100;
 	
 	private Button btnStart;
 	private RelativeLayout viewGroup = null;
@@ -22,7 +24,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	private PointController pointController = null;
 	private Timer mTimer;
 	private TimerController timerController;
-	private HoleController holeController = null;
+	private MoleController moleController = null;
 	private Paint mPaint = null;
 
 	
@@ -32,7 +34,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		viewGroup = new RelativeLayout(this);
 		viewController = new ViewController(this, viewGroup);
 		pointController = new PointController(viewController);
-		holeController = new HoleController(pointController, viewController);
+		moleController = new MoleController(pointController, viewController);
 		viewController.initDisplay(getLayoutInflater().inflate(R.layout.game_menu, viewGroup, isChild()));
 		viewController.displayStartButton();
 		setContentView(viewGroup);
@@ -67,8 +69,16 @@ public class MainActivity extends Activity implements OnClickListener {
 	private void startGame() {
 		viewController.closeStartBtn();
 		mTimer = new Timer(true);
-		timerController = new TimerController(viewController, holeController, mTimer);
-		mTimer.schedule(timerController, TIMER_DELAY, TIMER_PERIOD);
+		timerController = new TimerController(viewController, moleController, mTimer);
+		mTimer.schedule(timerController, TIMER_DELAY_MS, TIMER_PERIOD_MS);
+	}
+	
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		if( viewController.isHole(event.getX(), event.getY()) ) {
+			moleController.touch(viewController.touchHoleNum(event.getX(), event.getY()));
+		}
+		return true;
 	}
 
 }
