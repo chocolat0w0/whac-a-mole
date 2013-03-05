@@ -16,8 +16,9 @@ public final class R {
     public static final class id {
         public static final int btn_close=0x7f070001;
         public static final int btn_restart=0x7f070000;
-        public static final int btn_start=0x7f070006;
-        public static final int menu_settings=0x7f070007;
+        public static final int btn_start=0x7f070007;
+        public static final int menu_settings=0x7f070008;
+        public static final int textDebug=0x7f070006;
         public static final int txt_point=0x7f070005;
         public static final int txt_point_title=0x7f070003;
         public static final int txt_time_title=0x7f070002;

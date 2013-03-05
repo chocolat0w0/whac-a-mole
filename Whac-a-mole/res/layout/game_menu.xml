@@ -35,4 +35,12 @@
         android:layout_below="@+id/txt_timer"
         android:text="@string/point_init" />
 
+    <TextView
+        android:id="@+id/textDebug"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:text="デバッグ用" />
+
 </RelativeLayout>

@@ -15,16 +15,17 @@ import android.view.WindowManager;
 
 @SuppressLint("NewApi")
 public class HoleView extends View {
-	private static final int HOLE_NUMBER = 4;
 	
-	private Paint[] mPaint = new Paint[HOLE_NUMBER];
+	private Paint[] mPaint = new Paint[MoleController.HOLE_NUMBER];
 	private float radius = 30;
 	private Point size = null;
 	private Canvas canvas;
+	private HoleArea[] holeArea = new HoleArea[MoleController.HOLE_NUMBER];
+	
 	
 	public HoleView(Context context) {
 		super(context);
-		for (int i = 0; i < HOLE_NUMBER; i++) {
+		for (int i = 0; i < MoleController.HOLE_NUMBER; i++) {
 			mPaint[i] = new Paint();
 			mPaint[i].setColor(Color.GRAY);
 			mPaint[i].setAntiAlias(true);
@@ -38,24 +39,29 @@ public class HoleView extends View {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		this.canvas = canvas;
-		for (int i = 0; i < HOLE_NUMBER; i++) {
+		for (int i = 0; i < MoleController.HOLE_NUMBER; i++) {
 			drawHole(i);
 		}
 	}
 	
 	private void drawHole(int i) {
+		holeArea[i] = new HoleArea();
 		switch (i) {
 		case 0 :
 			canvas.drawCircle(size.x / 3, size.y / 3, radius, mPaint[i]);
+			holeArea[i].setCirclePosition(size.x / 3, size.y / 3, radius);
 			break;
 		case 1 :
 			canvas.drawCircle(size.x / 3 * 2, size.y / 3, radius, mPaint[i]);
+			holeArea[i].setCirclePosition(size.x / 3 * 2, size.y / 3, radius);
 			break;
 		case 2 :
 			canvas.drawCircle(size.x / 3, size.y / 3 * 2, radius, mPaint[i]);
+			holeArea[i].setCirclePosition(size.x / 3, size.y / 3 * 2, radius);
 			break;
 		case 3 :
 			canvas.drawCircle(size.x / 3 * 2, size.y / 3 * 2, radius, mPaint[i]);
+			holeArea[i].setCirclePosition(size.x / 3 * 2, size.y / 3 * 2, radius);
 			break;
 		default :
 			break;
@@ -88,6 +94,51 @@ public class HoleView extends View {
 
 	public void addMole(int i) {
 		mPaint[i].setColor(Color.RED);
+	}
+
+	public boolean isExisted(float x, float y) {
+		for (int i = 0; i < MoleController.HOLE_NUMBER; i++) {
+			if(holeArea[i].isContain(x, y)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	class HoleArea {
+		private float left;
+		private float right;
+		private float top;
+		private float bottom;
+		
+		public void setCirclePosition(int centerX, int centerY, float radius) {
+			left = centerX - radius;
+			right = centerX + radius;
+			top = centerY - radius;
+			bottom = centerY + radius;
+		}
+		
+		public boolean isContain(float x, float y) {
+			if (left <= x && x <= right && top <= y && y <= bottom ) {
+				return true;
+			}
+			return false;
+		}
+	}
+
+	public int touchHoleNum(float x, float y) {
+		for (int i = 0; i < MoleController.HOLE_NUMBER; i++) {
+			if(holeArea[i].isContain(x, y)) {
+				return i;
+			}
+		}
+		// TODO: error処理
+		return 0;
+	}
+
+	public void removeMole(int holeNum) {
+		// TODO 自動生成されたメソッド・スタブ
+		mPaint[holeNum].setColor(Color.GRAY);
 	}
 
 }
