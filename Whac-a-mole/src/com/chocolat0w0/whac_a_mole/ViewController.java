@@ -68,12 +68,9 @@ public class ViewController{
 	}
 
 	public void displayEndMenu() {
-		Button endBtn = new Button(context);
-		endBtn.setText(R.string.close);
-		endBtn.setId(R.id.btn_close);
 		RelativeLayout.LayoutParams layout = new RelativeLayout.LayoutParams(200, 100);
 		layout.addRule(RelativeLayout.CENTER_IN_PARENT);
-		viewGroup.addView(endBtn, layout);
+		viewGroup.addView(startBtn, layout);
 	}
 
 	public void addMole(int holeNum) {
@@ -89,7 +86,6 @@ public class ViewController{
 	}
 
 	public boolean isHole(float x, float y) {
-		// TODO: タイトルバー分、タッチ位置がずれる！
 		return holeView.isExisted(x, y - TITLE_BAR_HEIGHT);
 	}
 
@@ -103,8 +99,15 @@ public class ViewController{
 	}
 
 	public void changePoint(int totalPoint) {
+		float fromX = 1.0F;
+		float toX = 2.5F;
+		float fromY = 1.0F;
+		float toY = 2.5F;
+		long durationMillis = 30;
 		txtPoint.setText(Integer.toString(totalPoint));
-		txtPoint.setAnimation(new ScaleAnimation(10, 30, 10, 30));
+		ScaleAnimation animation = new ScaleAnimation(fromX, toX, fromY, toY);
+		animation.setDuration(durationMillis);
+		txtPoint.startAnimation(animation);
 	}
 
 }

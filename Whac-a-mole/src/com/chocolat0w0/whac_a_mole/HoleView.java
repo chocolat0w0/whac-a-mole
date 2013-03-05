@@ -18,7 +18,7 @@ public class HoleView extends View {
 	
 	private Paint[] mPaint = new Paint[MoleController.HOLE_NUMBER];
 	private final float radius = 50;
-	private Point size = null;
+	private Point windowSize = null;
 	private Canvas canvas;
 	private HoleArea[] holeArea = new HoleArea[MoleController.HOLE_NUMBER];
 	
@@ -32,8 +32,8 @@ public class HoleView extends View {
 		}
 		WindowManager wm = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
 		Display disp = wm.getDefaultDisplay();
-		size = new Point();
-		overrideGetSize(disp, size);
+		windowSize = new Point();
+		overrideGetSize(disp, windowSize);
 	}
 	
 	@Override
@@ -48,20 +48,20 @@ public class HoleView extends View {
 		holeArea[i] = new HoleArea();
 		switch (i) {
 		case 0 :
-			canvas.drawCircle(size.x / 3, size.y / 3, radius, mPaint[i]);
-			holeArea[i].setCirclePosition(size.x / 3, size.y / 3, radius);
+			canvas.drawCircle(windowSize.x / 3, windowSize.y / 3, radius, mPaint[i]);
+			holeArea[i].setCirclePosition(windowSize.x / 3, windowSize.y / 3, radius);
 			break;
 		case 1 :
-			canvas.drawCircle(size.x / 3 * 2, size.y / 3, radius, mPaint[i]);
-			holeArea[i].setCirclePosition(size.x / 3 * 2, size.y / 3, radius);
+			canvas.drawCircle(windowSize.x / 3 * 2, windowSize.y / 3, radius, mPaint[i]);
+			holeArea[i].setCirclePosition(windowSize.x / 3 * 2, windowSize.y / 3, radius);
 			break;
 		case 2 :
-			canvas.drawCircle(size.x / 3, size.y / 3 * 2, radius, mPaint[i]);
-			holeArea[i].setCirclePosition(size.x / 3, size.y / 3 * 2, radius);
+			canvas.drawCircle(windowSize.x / 3, windowSize.y / 3 * 2, radius, mPaint[i]);
+			holeArea[i].setCirclePosition(windowSize.x / 3, windowSize.y / 3 * 2, radius);
 			break;
 		case 3 :
-			canvas.drawCircle(size.x / 3 * 2, size.y / 3 * 2, radius, mPaint[i]);
-			holeArea[i].setCirclePosition(size.x / 3 * 2, size.y / 3 * 2, radius);
+			canvas.drawCircle(windowSize.x / 3 * 2, windowSize.y / 3 * 2, radius, mPaint[i]);
+			holeArea[i].setCirclePosition(windowSize.x / 3 * 2, windowSize.y / 3 * 2, radius);
 			break;
 		default :
 			break;

@@ -34,9 +34,7 @@ public class TimerController extends TimerTask {
 				elapsedTimeSeconds = currentTimeSeconds() - startTimeSeconds;
 				viewController.changeTime(LIMIT_TIME_SECONDS - elapsedTimeSeconds);
 				
-				if (elapsedTimeSeconds % 3 == 0) {
-					moleController.createMole(moleController.randomHoleNumber());
-				}
+				moleController.createMole(moleController.randomHoleNumber());
 				viewController.refresh();
 				
 				if(LIMIT_TIME_SECONDS <= elapsedTimeSeconds) {
