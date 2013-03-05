@@ -13,7 +13,5 @@ public class PointController {
 	public void add(int point) {
 		totalPoint += point;
 		viewController.changePoint(totalPoint);
-		// TODO 自動生成されたメソッド・スタブ
-		
 	}
 }

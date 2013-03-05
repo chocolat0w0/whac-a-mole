@@ -11,9 +11,8 @@ public class Mole {
 
 	public void whac() {
 		ViewController.debugInfo("whaced!");
-
-		// ポイント加算
 		pointController.add(POINT);
+		
 		
 	}
 }

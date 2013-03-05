@@ -16,11 +16,11 @@ public class TimerController extends TimerTask {
 	private long startTimeSeconds = 0;
 	private long elapsedTimeSeconds = 0;
 	
-	public TimerController(ViewController viewCtr, MoleController holeCtr, Timer mTimer) {
+	public TimerController(ViewController viewCtr, MoleController moleCtr, Timer mTimer) {
 		super();
 		mHandler = new Handler();
 		this.viewController = viewCtr;
-		this.moleController = holeCtr;
+		this.moleController = moleCtr;
 		this.mTimer = mTimer;
 		startTimeSeconds = currentTimeSeconds();
 	}
@@ -41,6 +41,7 @@ public class TimerController extends TimerTask {
 				
 				if(LIMIT_TIME_SECONDS <= elapsedTimeSeconds) {
 					mTimer.cancel();
+					moleController.removeAllMole();
 					viewController.displayEndMenu();
 				}
 			}

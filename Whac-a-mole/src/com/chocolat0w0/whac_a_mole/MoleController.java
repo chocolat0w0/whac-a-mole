@@ -37,5 +37,12 @@ public class MoleController {
 			viewController.removeMole(holeNum);
 		}
 	}
+
+	public void removeAllMole() {
+		for(int i = 0; i < HOLE_NUMBER; i++) {
+			mole[i] = null;
+			viewController.removeMole(i);
+		}
+	}
 	
 }

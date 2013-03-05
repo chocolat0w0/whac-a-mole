@@ -3,6 +3,7 @@ package com.chocolat0w0.whac_a_mole;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -103,6 +104,7 @@ public class ViewController{
 
 	public void changePoint(int totalPoint) {
 		txtPoint.setText(Integer.toString(totalPoint));
+		txtPoint.setAnimation(new ScaleAnimation(10, 30, 10, 30));
 	}
 
 }
