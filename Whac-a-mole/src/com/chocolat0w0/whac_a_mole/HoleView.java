@@ -17,7 +17,7 @@ import android.view.WindowManager;
 public class HoleView extends View {
 	
 	private Paint[] mPaint = new Paint[MoleController.HOLE_NUMBER];
-	private float radius = 30;
+	private final float radius = 50;
 	private Point size = null;
 	private Canvas canvas;
 	private HoleArea[] holeArea = new HoleArea[MoleController.HOLE_NUMBER];
@@ -69,6 +69,7 @@ public class HoleView extends View {
 		}
 	}
 
+	@SuppressWarnings({ "deprecation", "rawtypes" })
 	void overrideGetSize(Display display, Point outSize) {
 	    try {
 	      // test for new method to trigger exception
