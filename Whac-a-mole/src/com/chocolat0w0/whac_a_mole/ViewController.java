@@ -60,11 +60,12 @@ public class ViewController{
 		return result;
 	}
 
-	public void changeTime(long timeSeconds) {
-		txtTimer.setText(toTextTimerFormat(timeSeconds));
+	public void changeTime(long timeMillis) {
+		txtTimer.setText(toTextTimerFormat(timeMillis));
 	}
 
 	public void displayEndMenu() {
+		changeTime(0);
 		RelativeLayout.LayoutParams layout = new RelativeLayout.LayoutParams(200, 100);
 		layout.addRule(RelativeLayout.CENTER_IN_PARENT);
 		viewGroup.addView(startBtn, layout);
