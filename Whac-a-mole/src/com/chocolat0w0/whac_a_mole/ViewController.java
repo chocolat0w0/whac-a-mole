@@ -30,7 +30,7 @@ public class ViewController{
 		viewGroup.setBackgroundColor(Color.GREEN);
 		viewGroup.addView(gameStatus);
 		txtTimer = (TextView) gameStatus.findViewById(R.id.txt_timer);
-		String time = secondsToMMSS(TimerController.LIMIT_TIME_SECONDS);
+		String time = toTextTimerFormat(TimerController.LIMIT_TIME_MILLIS);
 		txtTimer.setText(time);
 		txtPoint = (TextView) gameStatus.findViewById(R.id.txt_point);
 		
@@ -51,20 +51,17 @@ public class ViewController{
 		viewGroup.removeView(startBtn);
 	}
 	
-	private String secondsToMMSS(long timeSeconds) {
-		String strMin;
-		String strSec;
+	private String toTextTimerFormat(long timeMillis) {
 		String result;
-		long minits = timeSeconds / 60;
-		long seconds = timeSeconds % 60;
-		strMin = minits < 10 ? '0' + Long.toString(minits) : Long.toString(minits);
-		strSec = seconds < 10 ? '0' + Long.toString(seconds) : Long.toString(seconds);
-		result = strMin + ":" + strSec;
+		long millis = timeMillis % 1000;
+		long seconds = timeMillis / 1000 % 60;
+		long minits = timeMillis / 1000 / 60;
+		result = String.format("%02d : %02d . %03d", minits, seconds, millis);
 		return result;
 	}
 
 	public void changeTime(long timeSeconds) {
-		txtTimer.setText(secondsToMMSS(timeSeconds));
+		txtTimer.setText(toTextTimerFormat(timeSeconds));
 	}
 
 	public void displayEndMenu() {
