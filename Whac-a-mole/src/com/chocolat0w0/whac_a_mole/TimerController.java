@@ -7,14 +7,14 @@ import android.os.Handler;
 
 public class TimerController extends TimerTask {
 
-	static final long LIMIT_TIME_SECONDS = 10;
+	static final long LIMIT_TIME_MILLIS = 10 * 1000;
 	
 	private Handler mHandler = null;
 	private ViewController viewController = null;
 	private MoleController moleController = null;
 	private Timer mTimer = null;
-	private long startTimeSeconds = 0;
-	private long elapsedTimeSeconds = 0;
+	private long startTimeMillis = 0;
+	private long elapsedTimeMillis = 0;
 	
 	public TimerController(ViewController viewCtr, MoleController moleCtr, Timer mTimer) {
 		super();
@@ -22,7 +22,7 @@ public class TimerController extends TimerTask {
 		this.viewController = viewCtr;
 		this.moleController = moleCtr;
 		this.mTimer = mTimer;
-		startTimeSeconds = currentTimeSeconds();
+		startTimeMillis = System.currentTimeMillis();
 	}
 	
 	@Override
@@ -31,13 +31,13 @@ public class TimerController extends TimerTask {
 			
 			@Override
 			public void run() {
-				elapsedTimeSeconds = currentTimeSeconds() - startTimeSeconds;
-				viewController.changeTime(LIMIT_TIME_SECONDS - elapsedTimeSeconds);
+				elapsedTimeMillis = System.currentTimeMillis() - startTimeMillis;
+				viewController.changeTime(LIMIT_TIME_MILLIS - elapsedTimeMillis);
 				
 				moleController.createMole(moleController.randomHoleNumber());
 				viewController.refresh();
 				
-				if(LIMIT_TIME_SECONDS <= elapsedTimeSeconds) {
+				if(LIMIT_TIME_MILLIS <= elapsedTimeMillis) {
 					mTimer.cancel();
 					moleController.removeAllMole();
 					viewController.displayEndMenu();
@@ -46,8 +46,8 @@ public class TimerController extends TimerTask {
 		});
 	}
 	
-	private long currentTimeSeconds() {
-		return System.currentTimeMillis() / 1000;
-	}
+//	private long currentTimeSeconds() {
+//		return System.currentTimeMillis() / 1000;
+//	}
 
 }
