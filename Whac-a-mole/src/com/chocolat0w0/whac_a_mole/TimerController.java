@@ -32,16 +32,16 @@ public class TimerController extends TimerTask {
 			@Override
 			public void run() {
 				elapsedTimeMillis = System.currentTimeMillis() - startTimeMillis;
-				viewController.changeTime(LIMIT_TIME_MILLIS - elapsedTimeMillis);
-				
-				moleController.createMole(moleController.randomHoleNumber());
-				viewController.refresh();
-				
 				if(LIMIT_TIME_MILLIS <= elapsedTimeMillis) {
 					mTimer.cancel();
 					moleController.removeAllMole();
 					viewController.displayEndMenu();
+					return;
 				}
+
+				viewController.changeTime(LIMIT_TIME_MILLIS - elapsedTimeMillis);
+				moleController.createMole(moleController.randomHoleNumber());
+				viewController.refresh();
 			}
 		});
 	}

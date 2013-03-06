@@ -13,9 +13,8 @@ import android.widget.RelativeLayout;
 
 public class MainActivity extends Activity implements OnClickListener {
 	
-//	static final long LIMIT_TIME_SECONDS = 10;
-	private static final long TIMER_DELAY_MS = 0;
-	private static final long TIMER_PERIOD_MS = 100;
+	private static final long TIMER_DELAY_MS = 50;
+	private static final long TIMER_PERIOD_MS = 50;
 	
 	private Button btnStart;
 	private RelativeLayout viewGroup = null;

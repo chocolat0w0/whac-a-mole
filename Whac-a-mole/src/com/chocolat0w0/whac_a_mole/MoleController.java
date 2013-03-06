@@ -3,12 +3,11 @@ package com.chocolat0w0.whac_a_mole;
 import java.util.Random;
 
 public class MoleController {
-	static final int HOLE_NUMBER = 4;
 	private static final int RANDOM_FACTOR = 10;
 	
 	private PointController pointController = null;
 	private ViewController viewController = null;
-	private Mole[] mole = new Mole[HOLE_NUMBER];
+	private Mole[] mole = new Mole[HoleView.HOLE_NUMBER];
 	
 	public MoleController(PointController pointCtr, ViewController viewCtr) {
 		this.pointController = pointCtr;
@@ -17,11 +16,11 @@ public class MoleController {
 	
 	public int randomHoleNumber() {
 		Random r = new Random();
-		return r.nextInt(HOLE_NUMBER * RANDOM_FACTOR);
+		return r.nextInt(HoleView.HOLE_NUMBER * RANDOM_FACTOR);
 	}
 	
 	public void createMole(int holeNum) {
-		if (HOLE_NUMBER <= holeNum) {
+		if (HoleView.HOLE_NUMBER <= holeNum) {
 			return;
 		}
 		if (mole[holeNum] == null) {
@@ -39,7 +38,7 @@ public class MoleController {
 	}
 
 	public void removeAllMole() {
-		for(int i = 0; i < HOLE_NUMBER; i++) {
+		for(int i = 0; i < HoleView.HOLE_NUMBER; i++) {
 			mole[i] = null;
 			viewController.removeMole(i);
 		}
