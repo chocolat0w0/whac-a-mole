@@ -68,7 +68,7 @@ public class ViewController{
 		changeTime(0);
 		RelativeLayout.LayoutParams layout = new RelativeLayout.LayoutParams(200, 100);
 		layout.addRule(RelativeLayout.CENTER_IN_PARENT);
-//		viewGroup.addView(startBtn, layout);
+		viewGroup.addView(startBtn, layout);
 	}
 
 	public void addMole(int holeNum) {
