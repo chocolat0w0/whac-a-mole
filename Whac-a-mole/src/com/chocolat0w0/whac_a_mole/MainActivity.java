@@ -29,8 +29,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		viewGroup = new RelativeLayout(this);
 		viewController = new ViewController(this, viewGroup);
-		pointController = new PointController(viewController);
-		moleController = new MoleController(pointController, viewController);
+		moleController = new MoleController(viewController);
 		viewController.initDisplay(getLayoutInflater().inflate(R.layout.game_menu, viewGroup, isChild()));
 		viewController.displayStartButton();
 		setContentView(viewGroup);
