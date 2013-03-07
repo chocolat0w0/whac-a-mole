@@ -6,7 +6,7 @@ public class MiddlePointMole extends BasicMole implements Mole {
 
 	public MiddlePointMole(PointController pointCtr, long birthTime) {
 		super(pointCtr, birthTime);
-		setPoint(100);
+		setPoint(300);
 		setType(EnumMoleType.MIDDLE);
 	}
 
