@@ -6,7 +6,7 @@ public class MinusPointMole extends BasicMole implements Mole {
 
 	public MinusPointMole(PointController pointCtr, long birthTime) {
 		super(pointCtr, birthTime);
-		setPoint(-100);
+		setPoint(-600);
 		setType(EnumMoleType.MINUS);
 	}
 

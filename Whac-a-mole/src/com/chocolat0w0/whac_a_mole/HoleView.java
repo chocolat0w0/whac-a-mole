@@ -3,34 +3,34 @@ package com.chocolat0w0.whac_a_mole;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import com.chocolat0w0.whac_a_mole.MoleType.EnumMoleType;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.chocolat0w0.whac_a_mole.MoleType.EnumMoleType;
+
 @SuppressLint("NewApi")
 public class HoleView extends View {
 	
 	private Paint[] mPaint = new Paint[MoleController.HOLE_NUMBER];
-	private final float radius = 50;
 	private Point windowSize = null;
 	private Canvas canvas;
 	private HoleArea[] holeArea = new HoleArea[MoleController.HOLE_NUMBER];
 	
+	private Bitmap[] mBitmap = new Bitmap[MoleController.HOLE_NUMBER];
 	
 	public HoleView(Context context) {
 		super(context);
 		for (int i = 0; i < MoleController.HOLE_NUMBER; i++) {
 			mPaint[i] = new Paint();
-			mPaint[i].setColor(Color.GRAY);
-			mPaint[i].setAntiAlias(true);
+			mBitmap[i] = BitmapFactory.decodeResource(getResources(), R.drawable.hole);
 		}
 		WindowManager wm = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
 		Display disp = wm.getDefaultDisplay();
@@ -54,17 +54,17 @@ public class HoleView extends View {
 		if(holeArea[holeNum] == null) {
 			holeArea[holeNum] = new HoleArea();
 		}
-		holeArea[holeNum].setCirclePosition(windowSize.x / (MoleController.HOLE_ROW+1) * (x+1),
-				windowSize.y / (MoleController.HOLE_COLUMN+1) * (y+1),
-				radius);
-		
+		holeArea[holeNum].setImageArea(windowSize.x / (MoleController.HOLE_ROW+1) * (x+1),
+				windowSize.y / (MoleController.HOLE_COLUMN+1) * (y+1), 
+				mBitmap[holeNum]);
 	}
 	
 	private void drawHole(int x, int y) {
 		int holeNum = x * MoleController.HOLE_COLUMN + y;
-		canvas.drawCircle(windowSize.x / (MoleController.HOLE_ROW+1) * (x+1),
-				windowSize.y / (MoleController.HOLE_COLUMN+1) * (y+1),
-				radius, mPaint[holeNum]);
+		canvas.drawBitmap(mBitmap[holeNum],
+				holeArea[holeNum].left,
+				holeArea[holeNum].top,
+				mPaint[holeNum]);
 	}
 
 	@SuppressWarnings({ "deprecation", "rawtypes" })
@@ -93,13 +93,13 @@ public class HoleView extends View {
 
 	public void addMole(int i, Mole mole) {
 		if(mole.getType() == EnumMoleType.MIDDLE) {
-			mPaint[i].setColor(Color.YELLOW);
+			mBitmap[i] = BitmapFactory.decodeResource(getResources(), R.drawable.mole1);
 		}
 		else if(mole.getType() == EnumMoleType.HIGH){
-			mPaint[i].setColor(Color.RED);
+			mBitmap[i] = BitmapFactory.decodeResource(getResources(), R.drawable.mole2);
 		}
 		else if(mole.getType() == EnumMoleType.MINUS) {
-			mPaint[i].setColor(Color.BLUE);
+			mBitmap[i] = BitmapFactory.decodeResource(getResources(), R.drawable.mole3);
 		}
 	}
 
@@ -112,17 +112,31 @@ public class HoleView extends View {
 		return false;
 	}
 	
+	public int touchHoleNum(float x, float y) {
+		for (int i = 0; i < MoleController.HOLE_NUMBER; i++) {
+			if(holeArea[i].isContain(x, y)) {
+				return i;
+			}
+		}
+		// TODO: error処理
+		return 0;
+	}
+	
+	public void removeMole(int holeNum) {
+		mBitmap[holeNum] = BitmapFactory.decodeResource(getResources(), R.drawable.hole);
+	}
+
 	class HoleArea {
 		private float left;
 		private float right;
 		private float top;
 		private float bottom;
 		
-		public void setCirclePosition(int centerX, int centerY, float radius) {
-			left = centerX - radius;
-			right = centerX + radius;
-			top = centerY - radius;
-			bottom = centerY + radius;
+		public void setImageArea(int centerX, int centerY, Bitmap image) {
+			left = centerX - image.getWidth() / 2;
+			right = centerX + image.getWidth() / 2;
+			top = centerY - image.getHeight() / 2;
+			bottom = centerY + image.getHeight() / 2;
 		}
 		
 		public boolean isContain(float x, float y) {
@@ -133,19 +147,5 @@ public class HoleView extends View {
 		}
 	}
 
-	public int touchHoleNum(float x, float y) {
-		for (int i = 0; i < MoleController.HOLE_NUMBER; i++) {
-			if(holeArea[i].isContain(x, y)) {
-				return i;
-			}
-		}
-		// TODO: error処理
-		return 0;
-	}
-
-	public void removeMole(int holeNum) {
-		// TODO 自動生成されたメソッド・スタブ
-		mPaint[holeNum].setColor(Color.GRAY);
-	}
 
 }
