@@ -1,5 +1,6 @@
 package com.chocolat0w0.whac_a_mole;
 
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -41,7 +42,7 @@ public class TimerController extends TimerTask {
 				}
 
 				viewController.changeTime(LIMIT_TIME_MILLIS - elapsedTimeMillis);
-				moleController.createMole(moleController.randomHoleNumber());
+				moleController.createMole(moleController.randomHoleNumber(), new Random().nextInt(3));
 				moleController.endMoleLifeTime();
 				viewController.refresh();
 			}

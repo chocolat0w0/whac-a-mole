@@ -3,6 +3,8 @@ package com.chocolat0w0.whac_a_mole;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import com.chocolat0w0.whac_a_mole.MoleType.EnumMoleType;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -89,8 +91,16 @@ public class HoleView extends View {
 		}
 	}
 
-	public void addMole(int i) {
-		mPaint[i].setColor(Color.RED);
+	public void addMole(int i, Mole mole) {
+		if(mole.getType() == EnumMoleType.MIDDLE) {
+			mPaint[i].setColor(Color.YELLOW);
+		}
+		else if(mole.getType() == EnumMoleType.HIGH){
+			mPaint[i].setColor(Color.RED);
+		}
+		else if(mole.getType() == EnumMoleType.MINUS) {
+			mPaint[i].setColor(Color.BLUE);
+		}
 	}
 
 	public boolean isExisted(float x, float y) {
