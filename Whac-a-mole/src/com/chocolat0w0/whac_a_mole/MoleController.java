@@ -28,7 +28,7 @@ public class MoleController {
 			return;
 		}
 		if (mole[holeNum] == null) {
-			this.mole[holeNum] = new Mole(pointController);
+			this.mole[holeNum] = new Mole(pointController, System.currentTimeMillis());
 			viewController.addMole(holeNum);
 		}
 	}
@@ -48,4 +48,12 @@ public class MoleController {
 		}
 	}
 	
+	public void endMoleLifeTime() {
+		for(int i = 0; i < HOLE_NUMBER; i++) {
+			if(mole[i] != null && !mole[i].isLiving(System.currentTimeMillis())) {
+				mole[i] = null;
+				viewController.removeMole(i);
+			}
+		}
+	}	
 }

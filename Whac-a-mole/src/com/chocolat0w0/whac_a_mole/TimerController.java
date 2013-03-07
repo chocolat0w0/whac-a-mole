@@ -36,11 +36,13 @@ public class TimerController extends TimerTask {
 					mTimer.cancel();
 					moleController.removeAllMole();
 					viewController.displayEndMenu();
+					viewController.refresh();
 					return;
 				}
 
 				viewController.changeTime(LIMIT_TIME_MILLIS - elapsedTimeMillis);
 				moleController.createMole(moleController.randomHoleNumber());
+				moleController.endMoleLifeTime();
 				viewController.refresh();
 			}
 		});
