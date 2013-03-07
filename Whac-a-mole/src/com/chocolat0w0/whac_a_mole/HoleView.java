@@ -15,17 +15,20 @@ import android.view.WindowManager;
 
 @SuppressLint("NewApi")
 public class HoleView extends View {
+	static final int HOLE_ROW = 3;
+	static final int HOLE_COLUMN = 3;
+	static final int HOLE_NUMBER = HOLE_ROW * HOLE_COLUMN;
 	
-	private Paint[] mPaint = new Paint[MoleController.HOLE_NUMBER];
+	private Paint[] mPaint = new Paint[HOLE_NUMBER];
 	private final float radius = 50;
 	private Point windowSize = null;
 	private Canvas canvas;
-	private HoleArea[] holeArea = new HoleArea[MoleController.HOLE_NUMBER];
+	private HoleArea[] holeArea = new HoleArea[HOLE_NUMBER];
 	
 	
 	public HoleView(Context context) {
 		super(context);
-		for (int i = 0; i < MoleController.HOLE_NUMBER; i++) {
+		for (int i = 0; i < HOLE_NUMBER; i++) {
 			mPaint[i] = new Paint();
 			mPaint[i].setColor(Color.GRAY);
 			mPaint[i].setAntiAlias(true);
@@ -39,8 +42,8 @@ public class HoleView extends View {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		this.canvas = canvas;
-		for (int j = 0; j < MoleController.HOLE_COLUMN; j++) {
-			for (int i = 0; i < MoleController.HOLE_ROW; i++) {
+		for (int j = 0; j < HOLE_COLUMN; j++) {
+			for (int i = 0; i < HOLE_ROW; i++) {
 				setHoleArea(i, j);
 				drawHole(i, j);
 			}
@@ -48,20 +51,20 @@ public class HoleView extends View {
 	}
 	
 	private void setHoleArea(int x, int y) {
-		int holeNum = x * MoleController.HOLE_COLUMN + y;
+		int holeNum = x * HOLE_COLUMN + y;
 		if(holeArea[holeNum] == null) {
 			holeArea[holeNum] = new HoleArea();
 		}
-		holeArea[holeNum].setCirclePosition(windowSize.x / (MoleController.HOLE_ROW+1) * (x+1),
-				windowSize.y / (MoleController.HOLE_COLUMN+1) * (y+1),
+		holeArea[holeNum].setCirclePosition(windowSize.x / (HOLE_ROW+1) * (x+1),
+				windowSize.y / (HOLE_COLUMN+1) * (y+1),
 				radius);
 		
 	}
 	
 	private void drawHole(int x, int y) {
-		int holeNum = x * MoleController.HOLE_COLUMN + y;
-		canvas.drawCircle(windowSize.x / (MoleController.HOLE_ROW+1) * (x+1),
-				windowSize.y / (MoleController.HOLE_COLUMN+1) * (y+1),
+		int holeNum = x * HOLE_COLUMN + y;
+		canvas.drawCircle(windowSize.x / (HOLE_ROW+1) * (x+1),
+				windowSize.y / (HOLE_COLUMN+1) * (y+1),
 				radius, mPaint[holeNum]);
 	}
 
@@ -94,7 +97,7 @@ public class HoleView extends View {
 	}
 
 	public boolean isExisted(float x, float y) {
-		for (int i = 0; i < MoleController.HOLE_NUMBER; i++) {
+		for (int i = 0; i < HOLE_NUMBER; i++) {
 			if(holeArea[i].isContain(x, y)) {
 				return true;
 			}
@@ -124,7 +127,7 @@ public class HoleView extends View {
 	}
 
 	public int touchHoleNum(float x, float y) {
-		for (int i = 0; i < MoleController.HOLE_NUMBER; i++) {
+		for (int i = 0; i < HOLE_NUMBER; i++) {
 			if(holeArea[i].isContain(x, y)) {
 				return i;
 			}
