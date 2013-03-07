@@ -7,8 +7,6 @@ public class Mole {
 	private PointController pointController = null;
 	private final long deathTime;
 
-	private long currentTime = 0;
-	
 	public Mole(PointController pointCtr, long birthTime) {
 		this.pointController = pointCtr;
 		this.deathTime = birthTime + LIFE_TIME_MILLIS;

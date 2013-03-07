@@ -13,9 +13,9 @@ public class MoleController {
 	private ViewController viewController = null;
 	private Mole[] mole = new Mole[HOLE_NUMBER];
 	
-	public MoleController(PointController pointCtr, ViewController viewCtr) {
-		this.pointController = pointCtr;
+	public MoleController(ViewController viewCtr) {
 		this.viewController = viewCtr;
+		this.pointController = new PointController(viewCtr);
 	}
 	
 	public int randomHoleNumber() {
