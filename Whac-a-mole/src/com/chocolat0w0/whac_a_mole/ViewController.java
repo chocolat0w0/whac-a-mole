@@ -71,8 +71,8 @@ public class ViewController{
 //		viewGroup.addView(startBtn, layout);
 	}
 
-	public void addMole(int holeNum) {
-		holeView.addMole(holeNum);
+	public void addMole(int holeNum, Mole mole) {
+		holeView.addMole(holeNum, mole);
 	}
 	
 	public void refresh() {

@@ -23,13 +23,27 @@ public class MoleController {
 		return r.nextInt(HOLE_NUMBER * RANDOM_FACTOR);
 	}
 	
-	public void createMole(int holeNum) {
+	public void createMole(int holeNum, int type) {
 		if (HOLE_NUMBER <= holeNum) {
 			return;
 		}
 		if (mole[holeNum] == null) {
-			this.mole[holeNum] = new Mole(pointController, System.currentTimeMillis());
-			viewController.addMole(holeNum);
+			switch(type) {
+			case 0:
+				this.mole[holeNum] = new MiddlePointMole(pointController, System.currentTimeMillis());
+				viewController.addMole(holeNum, mole[holeNum]);
+				break;
+			case 1:
+				this.mole[holeNum] = new HighPointMole(pointController, System.currentTimeMillis());
+				viewController.addMole(holeNum, mole[holeNum]);
+				break;
+			case 2:
+				this.mole[holeNum] = new MinusPointMole(pointController, System.currentTimeMillis());
+				viewController.addMole(holeNum, mole[holeNum]);
+				break;
+			default:
+				break;
+			}
 		}
 	}
 	
