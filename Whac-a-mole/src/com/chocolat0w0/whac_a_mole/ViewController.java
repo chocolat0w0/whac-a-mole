@@ -76,7 +76,9 @@ public class ViewController{
 	}
 	
 	public void refresh() {
+		holeView.invalidate();
 		viewGroup.invalidate();
+		debugInfo("りふれーーーっしゅ！");
 	}
 
 	public static void debugInfo(String string) {
