@@ -4,9 +4,10 @@ import java.util.Random;
 
 public class MoleController {
 	
-	static final int HOLE_ROW = 3;
-	static final int HOLE_COLUMN = 3;
+	static final int HOLE_ROW = 5;
+	static final int HOLE_COLUMN = 5;
 	static final int HOLE_NUMBER = HOLE_ROW * HOLE_COLUMN;
+	// モグラ出現確率。数字が大きいほど低確率。モグラの種類数より大きい必要がある。全モグラ同確率。
 	private static final int RANDOM_FACTOR = 10;
 	
 	private PointController pointController = null;
@@ -62,7 +63,7 @@ public class MoleController {
 		}
 	}
 	
-	public void endMoleLifeTime() {
+	public void removeMoleLifeTimeEnded() {
 		for(int i = 0; i < HOLE_NUMBER; i++) {
 			if(mole[i] != null && !mole[i].isLiving(System.currentTimeMillis())) {
 				mole[i] = null;
