@@ -29,12 +29,12 @@ public class MainActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		viewGroup = new RelativeLayout(this);
 		viewController = new ViewController(this, viewGroup);
-		moleController = new MoleController(viewController);
+		pointController = new PointController(viewController);
+		moleController = new MoleController(viewController, pointController);
 		viewController.initDisplay(getLayoutInflater().inflate(R.layout.game_menu, viewGroup, isChild()));
 		viewController.displayStartButton();
 		setContentView(viewGroup);
 		setListenerOnStartButton();
-
 	}
 
 	@Override
@@ -63,6 +63,8 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	private void startGame() {
 		viewController.closeStartBtn();
+		pointController.initPoint();
+		viewController.changePoint(0);
 		mTimer = new Timer(true);
 		timerController = new TimerController(viewController, moleController, mTimer);
 		mTimer.schedule(timerController, TIMER_DELAY_MS, TIMER_PERIOD_MS);

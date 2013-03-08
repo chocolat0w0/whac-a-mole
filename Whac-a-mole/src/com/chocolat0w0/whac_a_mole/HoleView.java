@@ -164,5 +164,30 @@ public class HoleView extends View {
 		}
 	}
 
+	public void popGotPoint(int holeNum, Mole mole) {
+		// TODO 子viewをもう一枚つくって操作する？
+		Bitmap image = null;
+		switch(mole.getType()) {
+		case MIDDLE:
+			image = BitmapFactory.decodeResource(getResources(), R.drawable.p300);
+			break;
+		case HIGH:
+			image = BitmapFactory.decodeResource(getResources(), R.drawable.p500);
+			break;
+		case MINUS:
+			image = BitmapFactory.decodeResource(getResources(), R.drawable.m600);
+			break;
+		default:
+			image = BitmapFactory.decodeResource(getResources(), R.drawable.p300);
+			break;
+		}
+		
+		canvas.drawBitmap(image,
+				holeArea[holeNum].left,
+				holeArea[holeNum].top,
+				mPaint[holeNum]);
+		
+		
+	}
 
 }
