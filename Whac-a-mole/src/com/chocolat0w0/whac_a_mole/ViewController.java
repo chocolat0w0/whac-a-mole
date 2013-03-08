@@ -1,6 +1,8 @@
 package com.chocolat0w0.whac_a_mole;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.view.View;
 import android.view.animation.ScaleAnimation;
@@ -18,6 +20,7 @@ public class ViewController{
 	private HoleView holeView = null;
 	private Context context = null;
 	private Button startBtn = null;
+	private RelativeLayout.LayoutParams layout = null;
 	private static TextView txtDebug = null;
 	
 	public ViewController(Context context, RelativeLayout viewGroup) {
@@ -42,7 +45,7 @@ public class ViewController{
 		startBtn = new Button(context);
 		startBtn.setText(R.string.start);
 		startBtn.setId(R.id.btn_start);
-		RelativeLayout.LayoutParams layout = new RelativeLayout.LayoutParams(200, 100);
+		layout = new RelativeLayout.LayoutParams(200, 100);
 		layout.addRule(RelativeLayout.CENTER_IN_PARENT);
 		viewGroup.addView(startBtn, layout);
 	}
@@ -66,9 +69,9 @@ public class ViewController{
 
 	public void displayEndMenu() {
 		changeTime(0);
-		RelativeLayout.LayoutParams layout = new RelativeLayout.LayoutParams(200, 100);
-		layout.addRule(RelativeLayout.CENTER_IN_PARENT);
-//		viewGroup.addView(startBtn, layout);
+		viewGroup.removeView(startBtn);
+		startBtn.setText(R.string.restart);
+		viewGroup.addView(startBtn, layout);
 	}
 
 	public void addMole(int holeNum, Mole mole) {
@@ -78,7 +81,6 @@ public class ViewController{
 	public void refresh() {
 		holeView.invalidate();
 		viewGroup.invalidate();
-		debugInfo("りふれーーーっしゅ！");
 	}
 
 	public static void debugInfo(String string) {
@@ -95,7 +97,6 @@ public class ViewController{
 
 	public void removeMole(int holeNum) {
 		holeView.removeMole(holeNum);
-		
 	}
 
 	public void changePoint(int totalPoint) {
@@ -108,6 +109,11 @@ public class ViewController{
 		ScaleAnimation animation = new ScaleAnimation(fromX, toX, fromY, toY);
 		animation.setDuration(durationMillis);
 		txtPoint.startAnimation(animation);
+	}
+
+	public void popGotPoint(int holeNum, Mole mole) {
+		holeView.popGotPoint(holeNum, mole);
+		
 	}
 
 }

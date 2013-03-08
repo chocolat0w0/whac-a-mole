@@ -48,9 +48,4 @@ public class TimerController extends TimerTask {
 			}
 		});
 	}
-	
-//	private long currentTimeSeconds() {
-//		return System.currentTimeMillis() / 1000;
-//	}
-
 }
