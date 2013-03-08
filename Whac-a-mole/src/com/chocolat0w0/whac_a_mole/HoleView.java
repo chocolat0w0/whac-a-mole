@@ -43,14 +43,26 @@ public class HoleView extends View {
 		this.canvas = canvas;
 		for (int j = 0; j < MoleController.HOLE_COLUMN; j++) {
 			for (int i = 0; i < MoleController.HOLE_ROW; i++) {
+				adjustImageSize(i, j);
 				setHoleArea(i, j);
 				drawHole(i, j);
 			}
 		}
 	}
 	
+	private void adjustImageSize(int x, int y) {
+		int holeNum = calcHoleNumber(x, y);
+		if(windowSize.x / MoleController.HOLE_COLUMN < mBitmap[holeNum].getWidth()) {
+			final int resizedWidth = windowSize.x / (MoleController.HOLE_COLUMN+1) - 10;
+			mBitmap[holeNum] = Bitmap.createScaledBitmap(mBitmap[holeNum], 
+					resizedWidth, 
+					mBitmap[holeNum].getHeight() * resizedWidth / mBitmap[holeNum].getWidth(), 
+					true);
+		}
+	}
+
 	private void setHoleArea(int x, int y) {
-		int holeNum = x * MoleController.HOLE_COLUMN + y;
+		int holeNum = calcHoleNumber(x, y);
 		if(holeArea[holeNum] == null) {
 			holeArea[holeNum] = new HoleArea();
 		}
@@ -60,13 +72,53 @@ public class HoleView extends View {
 	}
 	
 	private void drawHole(int x, int y) {
-		int holeNum = x * MoleController.HOLE_COLUMN + y;
+		int holeNum = calcHoleNumber(x, y);
 		canvas.drawBitmap(mBitmap[holeNum],
 				holeArea[holeNum].left,
 				holeArea[holeNum].top,
 				mPaint[holeNum]);
 	}
 
+	private int calcHoleNumber(int x, int y) {
+		int holeNum = x * MoleController.HOLE_COLUMN + y;
+		return holeNum;
+	}
+	
+	public void addMole(int i, Mole mole) {
+		if(mole.getType() == EnumMoleType.MIDDLE) {
+			mBitmap[i] = BitmapFactory.decodeResource(getResources(), R.drawable.mole1);
+		}
+		else if(mole.getType() == EnumMoleType.HIGH){
+			mBitmap[i] = BitmapFactory.decodeResource(getResources(), R.drawable.mole2);
+		}
+		else if(mole.getType() == EnumMoleType.MINUS) {
+			mBitmap[i] = BitmapFactory.decodeResource(getResources(), R.drawable.mole3);
+		}
+	}
+	
+	public boolean isExisted(float x, float y) {
+		for (int i = 0; i < MoleController.HOLE_NUMBER; i++) {
+			if(holeArea[i].isContain(x, y)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public int touchedHoleNum(float x, float y) {
+		for (int i = 0; i < MoleController.HOLE_NUMBER; i++) {
+			if(holeArea[i].isContain(x, y)) {
+				return i;
+			}
+		}
+		// TODO: error処理
+		return 0;
+	}
+	
+	public void removeMole(int holeNum) {
+		mBitmap[holeNum] = BitmapFactory.decodeResource(getResources(), R.drawable.hole);
+	}
+	
 	@SuppressWarnings({ "deprecation", "rawtypes" })
 	void overrideGetSize(Display display, Point outSize) {
 	    try {
@@ -89,41 +141,6 @@ public class HoleView extends View {
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public void addMole(int i, Mole mole) {
-		if(mole.getType() == EnumMoleType.MIDDLE) {
-			mBitmap[i] = BitmapFactory.decodeResource(getResources(), R.drawable.mole1);
-		}
-		else if(mole.getType() == EnumMoleType.HIGH){
-			mBitmap[i] = BitmapFactory.decodeResource(getResources(), R.drawable.mole2);
-		}
-		else if(mole.getType() == EnumMoleType.MINUS) {
-			mBitmap[i] = BitmapFactory.decodeResource(getResources(), R.drawable.mole3);
-		}
-	}
-
-	public boolean isExisted(float x, float y) {
-		for (int i = 0; i < MoleController.HOLE_NUMBER; i++) {
-			if(holeArea[i].isContain(x, y)) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	public int touchHoleNum(float x, float y) {
-		for (int i = 0; i < MoleController.HOLE_NUMBER; i++) {
-			if(holeArea[i].isContain(x, y)) {
-				return i;
-			}
-		}
-		// TODO: error処理
-		return 0;
-	}
-	
-	public void removeMole(int holeNum) {
-		mBitmap[holeNum] = BitmapFactory.decodeResource(getResources(), R.drawable.hole);
 	}
 
 	class HoleArea {

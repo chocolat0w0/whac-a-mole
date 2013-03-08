@@ -90,7 +90,7 @@ public class ViewController{
 	}
 
 	public int touchHoleNum(float x, float y) {
-		return holeView.touchHoleNum(x, y - TITLE_BAR_HEIGHT);
+		return holeView.touchedHoleNum(x, y - TITLE_BAR_HEIGHT);
 	}
 
 	public void removeMole(int holeNum) {
