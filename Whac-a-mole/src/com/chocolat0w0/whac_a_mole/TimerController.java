@@ -36,6 +36,7 @@ public class TimerController extends TimerTask {
 				if(LIMIT_TIME_MILLIS <= elapsedTimeMillis) {
 					mTimer.cancel();
 					moleController.removeAllMole();
+					viewController.refresh();
 					viewController.displayEndMenu();
 					viewController.refresh();
 					return;
