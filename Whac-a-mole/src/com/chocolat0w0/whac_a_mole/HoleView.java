@@ -182,7 +182,7 @@ public class HoleView extends View {
 			break;
 		}
 		
-		canvas.drawBitmap(image,
+		 canvas.drawBitmap(image,
 				holeArea[holeNum].left,
 				holeArea[holeNum].top,
 				mPaint[holeNum]);

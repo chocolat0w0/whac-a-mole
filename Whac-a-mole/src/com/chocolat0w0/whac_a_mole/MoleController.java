@@ -54,7 +54,7 @@ public class MoleController {
 	public void touch(int holeNum) {
 		if (mole[holeNum] != null) {
 			mole[holeNum].whac();
-			viewController.popGotPoint(holeNum, mole[holeNum]);
+//			viewController.popGotPoint(holeNum, mole[holeNum]);
 			viewController.removeMole(holeNum);
 			mole[holeNum] = null;
 		}
