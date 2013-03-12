@@ -41,11 +41,11 @@ public class HoleView extends View {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		this.canvas = canvas;
-		for (int j = 0; j < MoleController.HOLE_COLUMN; j++) {
-			for (int i = 0; i < MoleController.HOLE_ROW; i++) {
-				adjustImageSize(i, j);
-				setHoleArea(i, j);
-				drawHole(i, j);
+		for (int y = 0; y < MoleController.HOLE_COLUMN; y++) {
+			for (int x = 0; x < MoleController.HOLE_ROW; x++) {
+				adjustImageSize(x, y);
+				setHoleArea(x, y);
+				drawHole(x, y);
 			}
 		}
 	}
