@@ -2,7 +2,7 @@ package com.chocolat0w0.whac_a_mole;
 
 public class PointController {
 
-	private int totalPoint = 0;
+	protected int totalPoint = 0;
 	private ViewController viewController;
 	
 	public PointController(ViewController viewController) {
