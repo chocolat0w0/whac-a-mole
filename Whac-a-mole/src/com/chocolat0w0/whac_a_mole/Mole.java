@@ -6,4 +6,5 @@ interface Mole {
 	public void whac();
 	public boolean isLiving(long currentTime);
 	public EnumMoleType getType();
+	public int getPoint();
 }
