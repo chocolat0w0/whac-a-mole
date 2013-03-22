@@ -33,16 +33,16 @@ public class MoleController {
 			case 0:
 				// TODO: 増えてきたら分離必要
 				// TODO: 状態クラスを渡してnew　とか　パラメータ渡して作る　とか
-				this.mole[holeNum] = new MiddlePointMole(pointController, System.currentTimeMillis());
+				this.mole[holeNum] = new MiddlePointMole(System.currentTimeMillis());
 				// TODO: これswitchの外に出したい
 				viewController.addMole(holeNum, mole[holeNum]);
 				break;
 			case 1:
-				this.mole[holeNum] = new HighPointMole(pointController, System.currentTimeMillis());
+				this.mole[holeNum] = new HighPointMole(System.currentTimeMillis());
 				viewController.addMole(holeNum, mole[holeNum]);
 				break;
 			case 2:
-				this.mole[holeNum] = new MinusPointMole(pointController, System.currentTimeMillis());
+				this.mole[holeNum] = new MinusPointMole(System.currentTimeMillis());
 				viewController.addMole(holeNum, mole[holeNum]);
 				break;
 			default:
@@ -55,6 +55,7 @@ public class MoleController {
 		if (mole[holeNum] != null) {
 			mole[holeNum].whac();
 //			viewController.popGotPoint(holeNum, mole[holeNum]);
+			pointController.add(mole[holeNum].getPoint());
 			viewController.removeMole(holeNum);
 			mole[holeNum] = null;
 		}
