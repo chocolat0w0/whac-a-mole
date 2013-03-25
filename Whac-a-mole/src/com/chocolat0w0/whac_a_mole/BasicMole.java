@@ -14,7 +14,7 @@ public abstract class BasicMole {
 	}
 
 	public void whac() {
-		ViewController.debugInfo("whaced!");
+//		ViewController.debugInfo("whaced!");
 	}
 	
 	public boolean isLiving(long currentTime) {
