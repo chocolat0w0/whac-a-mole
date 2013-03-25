@@ -8,13 +8,11 @@ public class MoleController {
 	static final int HOLE_COLUMN = 3;
 	static final int HOLE_NUMBER = HOLE_ROW * HOLE_COLUMN;
 	// モグラ出現確率。数字が大きいほど低確率。モグラの種類数より大きい必要がある。全モグラ同確率。
-	private static final int RANDOM_FACTOR = 10;
+	static final int RANDOM_FACTOR = 10;
 	
-	private PointController pointController = null;
 	private Mole[] mole = new Mole[HOLE_NUMBER];
 	
-	public MoleController(ViewController viewCtr, PointController pointCtr) {
-		this.pointController = pointCtr;
+	public MoleController() {
 	}
 	
 	public int randomHoleNumber() {
@@ -40,21 +38,23 @@ public class MoleController {
 				this.mole[holeNum] = new MinusPointMole(System.currentTimeMillis());
 				break;
 			default:
-				break;
+				return false;
 			}
 			return true;
 		}
 		return false;
 	}
 	
-	public void touch(int holeNum) {
+	public int touch(int holeNum) {
 		if (mole[holeNum] != null) {
 			mole[holeNum].whac();
 //			うまくうごかなーい
 //			viewController.popGotPoint(holeNum, mole[holeNum]);
-			pointController.add(mole[holeNum].getPoint());
+			int point = mole[holeNum].getPoint();
 			mole[holeNum] = null;
+			return point;
 		}
+		return 0;
 	}
 
 	public boolean removeMoleLifeTimeEnded(int holeNum) {
@@ -72,7 +72,9 @@ public class MoleController {
 	}
 
 	public Mole getMole(int holeNum) {
-		// TODO 自動生成されたメソッド・スタブ
+		if (MoleController.HOLE_NUMBER <= holeNum) {
+			return null;
+		}
 		return mole[holeNum];
 	}	
 }
