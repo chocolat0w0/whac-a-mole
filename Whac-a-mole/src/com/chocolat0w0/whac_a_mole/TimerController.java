@@ -17,6 +17,7 @@ public class TimerController extends TimerTask {
 	private long startTimeMillis = 0;
 	private long elapsedTimeMillis = 0;
 	
+	
 	public TimerController(ViewController viewCtr, MoleController moleCtr, Timer mTimer) {
 		super();
 		mHandler = new Handler();
@@ -30,12 +31,14 @@ public class TimerController extends TimerTask {
 	public void run() {
 		mHandler.post(new Runnable() {
 			
+
 			@Override
 			public void run() {
 				elapsedTimeMillis = System.currentTimeMillis() - startTimeMillis;
 				if(LIMIT_TIME_MILLIS <= elapsedTimeMillis) {
 					mTimer.cancel();
 					moleController.removeAllMole();
+					viewController.removeAllMole();
 					viewController.refresh();
 					viewController.displayEndMenu();
 					viewController.refresh();
@@ -43,8 +46,17 @@ public class TimerController extends TimerTask {
 				}
 
 				viewController.changeTime(LIMIT_TIME_MILLIS - elapsedTimeMillis);
-				moleController.createMole(moleController.randomHoleNumber(), new Random().nextInt(3));
-				moleController.removeMoleLifeTimeEnded();
+				int randomHoleNum = moleController.randomHoleNumber();
+				boolean isCreated = moleController.createMole(randomHoleNum, new Random().nextInt(3));
+				if (isCreated == true) {
+					viewController.addMole(randomHoleNum, moleController.getMole(randomHoleNum));
+				}
+				for (int i = 0; i < MoleController.HOLE_NUMBER; i++) {
+					boolean isDead = moleController.removeMoleLifeTimeEnded(i);
+					if (isDead == true) {
+						viewController.removeMole(i);
+					}
+				}
 				viewController.refresh();
 			}
 		});

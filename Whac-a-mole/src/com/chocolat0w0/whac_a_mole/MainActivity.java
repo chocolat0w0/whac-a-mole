@@ -73,7 +73,9 @@ public class MainActivity extends Activity implements OnClickListener {
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		if( viewController.isHole(event.getX(), event.getY()) ) {
-			moleController.touch(viewController.touchHoleNum(event.getX(), event.getY()));
+			int touchedHoleNum = viewController.touchHoleNum(event.getX(), event.getY());
+			viewController.removeMole(touchedHoleNum);
+			moleController.touch(touchedHoleNum);
 		}
 		return true;
 	}

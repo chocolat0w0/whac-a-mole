@@ -11,11 +11,9 @@ public class MoleController {
 	private static final int RANDOM_FACTOR = 10;
 	
 	private PointController pointController = null;
-	private ViewController viewController = null;
 	private Mole[] mole = new Mole[HOLE_NUMBER];
 	
 	public MoleController(ViewController viewCtr, PointController pointCtr) {
-		this.viewController = viewCtr;
 		this.pointController = pointCtr;
 	}
 	
@@ -24,9 +22,9 @@ public class MoleController {
 		return r.nextInt(HOLE_NUMBER * RANDOM_FACTOR);
 	}
 	
-	public void createMole(int holeNum, int type) {
+	public boolean createMole(int holeNum, int type) {
 		if (HOLE_NUMBER <= holeNum) {
-			return;
+			return false;
 		}
 		if (mole[holeNum] == null) {
 			switch(type) {
@@ -34,46 +32,47 @@ public class MoleController {
 				// TODO: 増えてきたら分離必要
 				// TODO: 状態クラスを渡してnew　とか　パラメータ渡して作る　とか
 				this.mole[holeNum] = new MiddlePointMole(System.currentTimeMillis());
-				// TODO: これswitchの外に出したい
-				viewController.addMole(holeNum, mole[holeNum]);
 				break;
 			case 1:
 				this.mole[holeNum] = new HighPointMole(System.currentTimeMillis());
-				viewController.addMole(holeNum, mole[holeNum]);
 				break;
 			case 2:
 				this.mole[holeNum] = new MinusPointMole(System.currentTimeMillis());
-				viewController.addMole(holeNum, mole[holeNum]);
 				break;
 			default:
 				break;
 			}
+			return true;
 		}
+		return false;
 	}
 	
 	public void touch(int holeNum) {
 		if (mole[holeNum] != null) {
 			mole[holeNum].whac();
+//			うまくうごかなーい
 //			viewController.popGotPoint(holeNum, mole[holeNum]);
 			pointController.add(mole[holeNum].getPoint());
-			viewController.removeMole(holeNum);
 			mole[holeNum] = null;
 		}
 	}
 
-	public void removeMoleLifeTimeEnded() {
-		for(int i = 0; i < HOLE_NUMBER; i++) {
-			if(mole[i] != null && !mole[i].isLiving(System.currentTimeMillis())) {
-				mole[i] = null;
-				viewController.removeMole(i);
+	public boolean removeMoleLifeTimeEnded(int holeNum) {
+			if(mole[holeNum] != null && !mole[holeNum].isLiving(System.currentTimeMillis())) {
+				mole[holeNum] = null;
+				return true;
 			}
-		}
+			return false;
 	}
 
 	public void removeAllMole() {
 		for(int i = 0; i < HOLE_NUMBER; i++) {
 			mole[i] = null;
-			viewController.removeMole(i);
 		}
+	}
+
+	public Mole getMole(int holeNum) {
+		// TODO 自動生成されたメソッド・スタブ
+		return mole[holeNum];
 	}	
 }
