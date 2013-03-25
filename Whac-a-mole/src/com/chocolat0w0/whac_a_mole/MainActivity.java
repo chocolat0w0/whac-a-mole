@@ -30,7 +30,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		viewGroup = new RelativeLayout(this);
 		viewController = new ViewController(this, viewGroup);
 		pointController = new PointController(viewController);
-		moleController = new MoleController(viewController, pointController);
+		moleController = new MoleController();
 		viewController.initDisplay(getLayoutInflater().inflate(R.layout.game_menu, viewGroup, isChild()));
 		viewController.displayStartButton();
 		setContentView(viewGroup);
@@ -75,7 +75,8 @@ public class MainActivity extends Activity implements OnClickListener {
 		if( viewController.isHole(event.getX(), event.getY()) ) {
 			int touchedHoleNum = viewController.touchHoleNum(event.getX(), event.getY());
 			viewController.removeMole(touchedHoleNum);
-			moleController.touch(touchedHoleNum);
+			int point = moleController.touch(touchedHoleNum);
+			pointController.add(point);
 		}
 		return true;
 	}
