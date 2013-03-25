@@ -78,13 +78,14 @@ public class ViewController{
 		holeView.addMole(holeNum, mole);
 	}
 	
-	public void refresh() {
-		holeView.invalidate();
-		viewGroup.invalidate();
+	public void removeMole(int holeNum) {
+		holeView.removeMole(holeNum);
 	}
 
-	public static void debugInfo(String string) {
-		txtDebug.setText(string);
+	public void removeAllMole() {
+		for (int i = 0; i < MoleController.HOLE_NUMBER; i++) {
+			removeMole(i);
+		}
 	}
 
 	public boolean isHole(float x, float y) {
@@ -93,10 +94,6 @@ public class ViewController{
 
 	public int touchHoleNum(float x, float y) {
 		return holeView.touchedHoleNum(x, y - TITLE_BAR_HEIGHT);
-	}
-
-	public void removeMole(int holeNum) {
-		holeView.removeMole(holeNum);
 	}
 
 	public void changePoint(int totalPoint) {
@@ -111,9 +108,18 @@ public class ViewController{
 		txtPoint.startAnimation(animation);
 	}
 
+	public void refresh() {
+		holeView.invalidate();
+		viewGroup.invalidate();
+	}
+
 	public void popGotPoint(int holeNum, Mole mole) {
 		holeView.popGotPoint(holeNum, mole);
 		
+	}
+
+	public static void debugInfo(String string) {
+		txtDebug.setText(string);
 	}
 
 }
