@@ -65,6 +65,25 @@ public class MoleControllerTest extends TestCase {
 		assertNotNull(createdMole);
 	}
 	
+	public void test_touchによって_モグラがいた場合叩ける() throws Exception {
+		int holeNum = 0;
+		int type = 0;
+		moleController.createMole(holeNum, type);
+		int point = moleController.touch(holeNum);
+		Mole existMole = moleController.getMole(holeNum);
+		assertNull(existMole);
+		assertTrue(point != 0);
+	}
+	
+	public void test_touchによって_モグラがいない場合叩けない() throws Exception {
+		int holeNum = 0;
+		int type = 0;
+		int point = moleController.touch(holeNum);
+		Mole existMole = moleController.getMole(holeNum);
+		assertNull(existMole);
+		assertTrue(point == 0);
+	}
+	
 
 	
 }
