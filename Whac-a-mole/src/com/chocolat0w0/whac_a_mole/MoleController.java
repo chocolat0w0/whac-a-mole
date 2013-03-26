@@ -10,7 +10,8 @@ public class MoleController {
 	// モグラ出現確率。数字が大きいほど低確率。モグラの種類数より大きい必要がある。全モグラ同確率。
 	static final int RANDOM_FACTOR = 10;
 	
-	private Mole[] mole = new Mole[HOLE_NUMBER];
+	// TODO: テストのためにアクセス制限緩くしたよ
+	Mole[] mole = new Mole[HOLE_NUMBER];
 	
 	public MoleController() {
 	}
@@ -71,6 +72,7 @@ public class MoleController {
 		}
 	}
 
+	// TODO: テストのために作ったアクセッサだよ
 	public Mole getMole(int holeNum) {
 		if (MoleController.HOLE_NUMBER <= holeNum) {
 			return null;
