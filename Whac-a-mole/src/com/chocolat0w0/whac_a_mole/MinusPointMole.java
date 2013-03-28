@@ -2,7 +2,7 @@ package com.chocolat0w0.whac_a_mole;
 
 import com.chocolat0w0.whac_a_mole.MoleType.EnumMoleType;
 
-public class MinusPointMole extends BasicMole implements Mole {
+class MinusPointMole extends BasicMole implements Mole {
 
 	public MinusPointMole(long birthTime) {
 		super(birthTime);
