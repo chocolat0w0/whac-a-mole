@@ -17,7 +17,7 @@ import android.view.WindowManager;
 import com.chocolat0w0.whac_a_mole.MoleType.EnumMoleType;
 
 @SuppressLint("NewApi")
-public class HoleView extends View {
+public class HoleView extends View implements Observer {
 	
 	private Paint[] mPaint = new Paint[MoleController.HOLE_NUMBER];
 	private Point windowSize = null;

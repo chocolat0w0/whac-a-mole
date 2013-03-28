@@ -1,8 +1,9 @@
 package com.chocolat0w0.whac_a_mole;
 
+import java.util.Observable;
 import java.util.Random;
 
-public class MoleController {
+public class MoleController extends Observable{
 	
 	static final int HOLE_ROW = 3;
 	static final int HOLE_COLUMN = 3;
