@@ -19,6 +19,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	private Button btnStart;
 	private RelativeLayout viewGroup = null;
 	private ViewController viewController = null;
+	private HoleView holeView = null;
 	private Timer mTimer;
 	private TimerController timerController;
 	private MoleController moleController = null;
@@ -28,7 +29,9 @@ public class MainActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		viewGroup = new RelativeLayout(this);
-		viewController = new ViewController(this, viewGroup);
+		holeView = new HoleView(this);
+		viewController = new ViewController(this, viewGroup, holeView);
+		viewGroup.addView(holeView);
 		mPoint  = new Point();
 		mPoint.addObserver(viewController);
 		moleController = new MoleController();

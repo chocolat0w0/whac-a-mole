@@ -4,8 +4,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.view.View;
 import android.view.animation.ScaleAnimation;
@@ -26,10 +24,10 @@ public class ViewController implements Observer{
 	private RelativeLayout.LayoutParams layout = null;
 	private static TextView txtDebug = null;
 	
-	public ViewController(Context context, RelativeLayout viewGroup) {
+	public ViewController(Context context, RelativeLayout viewGroup, HoleView holeView) {
 		this.viewGroup = viewGroup;
 		this.context = context;
-		holeView = new HoleView(context);
+		this.holeView = holeView;
 	}
 	
 	public void initDisplay(View gameStatus) {
@@ -39,9 +37,7 @@ public class ViewController implements Observer{
 		String time = toTextTimerFormat(TimerController.LIMIT_TIME_MILLIS);
 		txtTimer.setText(time);
 		txtPoint = (TextView) gameStatus.findViewById(R.id.txt_point);
-		
 		txtDebug = (TextView) gameStatus.findViewById(R.id.textDebug);
-		viewGroup.addView(holeView);
 	}
 	
 	public void displayStartButton() {
