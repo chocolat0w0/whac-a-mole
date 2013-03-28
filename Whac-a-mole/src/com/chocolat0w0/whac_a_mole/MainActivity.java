@@ -19,17 +19,18 @@ public class MainActivity extends Activity implements OnClickListener {
 	private Button btnStart;
 	private RelativeLayout viewGroup = null;
 	private ViewController viewController = null;
-	private PointController pointController = null;
 	private Timer mTimer;
 	private TimerController timerController;
 	private MoleController moleController = null;
+	private Point mPoint = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		viewGroup = new RelativeLayout(this);
 		viewController = new ViewController(this, viewGroup);
-		pointController = new PointController(viewController);
+		mPoint  = new Point();
+		mPoint.addObserver(viewController);
 		moleController = new MoleController();
 		viewController.initDisplay(getLayoutInflater().inflate(R.layout.game_menu, viewGroup, isChild()));
 		viewController.displayStartButton();
@@ -63,8 +64,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	private void startGame() {
 		viewController.closeStartBtn();
-		pointController.initPoint();
-		viewController.changePoint(0);
+		mPoint.init();
 		mTimer = new Timer(true);
 		timerController = new TimerController(viewController, moleController, mTimer);
 		mTimer.schedule(timerController, TIMER_DELAY_MS, TIMER_PERIOD_MS);
@@ -76,7 +76,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			int touchedHoleNum = viewController.touchHoleNum(event.getX(), event.getY());
 			viewController.removeMole(touchedHoleNum);
 			int point = moleController.touch(touchedHoleNum);
-			pointController.add(point);
+			mPoint.add(point);
 		}
 		return true;
 	}

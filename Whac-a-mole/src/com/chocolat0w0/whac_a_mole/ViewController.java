@@ -1,5 +1,8 @@
 package com.chocolat0w0.whac_a_mole;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,7 +13,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class ViewController{
+public class ViewController implements Observer{
 	// TODO: タイトルバー分タッチポイントがずれるのを修正。動的に取得したい。。。
 	private static final int TITLE_BAR_HEIGHT = 100;
 	
@@ -96,13 +99,15 @@ public class ViewController{
 		return holeView.touchedHoleNum(x, y - TITLE_BAR_HEIGHT);
 	}
 
-	public void changePoint(int totalPoint) {
+	@Override
+	public void update(Observable o, Object arg) {
 		float fromX = 1.0F;
 		float toX = 2.5F;
 		float fromY = 1.0F;
 		float toY = 2.5F;
 		long durationMillis = 30;
-		txtPoint.setText(Integer.toString(totalPoint));
+		Point point = (Point) arg;
+		txtPoint.setText(Integer.toString(point.getPoint()));
 		ScaleAnimation animation = new ScaleAnimation(fromX, toX, fromY, toY);
 		animation.setDuration(durationMillis);
 		txtPoint.startAnimation(animation);

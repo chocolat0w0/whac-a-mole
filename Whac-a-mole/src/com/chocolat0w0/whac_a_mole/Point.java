@@ -1,6 +1,8 @@
 package com.chocolat0w0.whac_a_mole;
 
-public class Point {
+import java.util.Observable;
+
+public class Point extends Observable {
 
 	private int totalPoint;
 	
@@ -10,10 +12,14 @@ public class Point {
 	
 	public void add(int point) {
 		totalPoint += point;
+		setChanged();
+		notifyObservers(this);
 	}
 	
 	public void init() {
 		totalPoint = 0;
+		setChanged();
+		notifyObservers(this);
 	}
 	
 	public int getPoint() {
