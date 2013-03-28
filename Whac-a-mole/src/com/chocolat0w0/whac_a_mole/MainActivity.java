@@ -12,9 +12,11 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 
 public class MainActivity extends Activity implements OnClickListener {
-	
-	private static final long TIMER_DELAY_MS = 50;
-	private static final long TIMER_PERIOD_MS = 50;
+	// TODO: タイトルバー分タッチポイントがずれるのを修正。動的に取得したい。。。
+	private static final int TITLE_BAR_HEIGHT = 100;
+
+	private static final long TIMER_DELAY_MS = 100;
+	private static final long TIMER_PERIOD_MS = 100;
 	
 	private Button btnStart;
 	private RelativeLayout viewGroup = null;
@@ -30,11 +32,12 @@ public class MainActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		viewGroup = new RelativeLayout(this);
 		holeView = new HoleView(this);
-		viewController = new ViewController(this, viewGroup, holeView);
+		viewController = new ViewController(this, viewGroup);
 		viewGroup.addView(holeView);
 		mPoint  = new Point();
 		mPoint.addObserver(viewController);
 		moleController = new MoleController();
+		moleController.addObserver(holeView);
 		viewController.initDisplay(getLayoutInflater().inflate(R.layout.game_menu, viewGroup, isChild()));
 		viewController.displayStartButton();
 		setContentView(viewGroup);
@@ -69,16 +72,16 @@ public class MainActivity extends Activity implements OnClickListener {
 		viewController.closeStartBtn();
 		mPoint.init();
 		mTimer = new Timer(true);
-		timerController = new TimerController(viewController, moleController, mTimer);
+		timerController = new TimerController(viewController, holeView, moleController, mTimer);
 		mTimer.schedule(timerController, TIMER_DELAY_MS, TIMER_PERIOD_MS);
 	}
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		if( viewController.isHole(event.getX(), event.getY()) ) {
-			int touchedHoleNum = viewController.touchHoleNum(event.getX(), event.getY());
-			viewController.removeMole(touchedHoleNum);
-			int point = moleController.touch(touchedHoleNum);
+		if ( holeView.isExisted(event.getX(), event.getY() - TITLE_BAR_HEIGHT)) {
+			int touchedHoleNum = holeView.getTouchedHoleNum(event.getX(), event.getY() - TITLE_BAR_HEIGHT);
+			int point = moleController.getTouchedMolePoint(touchedHoleNum);
+			moleController.touch(touchedHoleNum);
 			mPoint.add(point);
 		}
 		return true;

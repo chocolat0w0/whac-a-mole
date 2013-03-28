@@ -31,27 +31,24 @@ public class MoleControllerTest extends TestCase {
 	public void test_createMoleによって_指定された穴にモグラが生成される() throws Exception {
 		int holeNum = 0;
 		int type = 0;
-		boolean isCreated = moleController.createMole(holeNum, type);
+		moleController.createMole(holeNum, type);
 		Mole createdMole = moleController.getMole(holeNum);
-		assertTrue(isCreated);
 		assertNotNull(createdMole);
 	}
 	
 	public void test_createMoleによって_指定された穴が存在しない場合は新たにモグラを生成しない() throws Exception {
 		int holeNum = MoleController.HOLE_NUMBER + 1;
 		int type = 0;
-		boolean isCreated = moleController.createMole(holeNum, type);
+		moleController.createMole(holeNum, type);
 		Mole createdMole = moleController.getMole(holeNum);
-		assertFalse(isCreated);
 		assertNull(createdMole);
 	}
 
 	public void test_createMoleによって_指定されたモグラタイプが存在しない場合新たにモグラを生成しない() throws Exception {
 		int holeNum = 0;
 		int type = EnumSet.allOf(EnumMoleType.class).size() + 1;
-		boolean isCreated = moleController.createMole(holeNum, type);
+		moleController.createMole(holeNum, type);
 		Mole createdMole = moleController.getMole(holeNum);
-		assertFalse(isCreated);
 		assertNull(createdMole);
 	}
 	
@@ -59,9 +56,8 @@ public class MoleControllerTest extends TestCase {
 		int holeNum = 0;
 		int type = 0;
 		moleController.createMole(holeNum, type);
-		boolean isCreated = moleController.createMole(holeNum, type);
+		moleController.createMole(holeNum, type);
 		Mole createdMole = moleController.getMole(holeNum);
-		assertFalse(isCreated);
 		assertNotNull(createdMole);
 	}
 	
@@ -69,7 +65,8 @@ public class MoleControllerTest extends TestCase {
 		int holeNum = 0;
 		int type = 0;
 		moleController.createMole(holeNum, type);
-		int point = moleController.touch(holeNum);
+		int point = moleController.getTouchedMolePoint(holeNum);
+		moleController.touch(holeNum);
 		Mole existMole = moleController.getMole(holeNum);
 		assertNull(existMole);
 		assertTrue(point != 0);
@@ -77,7 +74,8 @@ public class MoleControllerTest extends TestCase {
 	
 	public void test_touchによって_モグラがいない場合叩けない() throws Exception {
 		int holeNum = 0;
-		int point = moleController.touch(holeNum);
+		int point = moleController.getTouchedMolePoint(holeNum);
+		moleController.touch(holeNum);
 		Mole existMole = moleController.getMole(holeNum);
 		assertNull(existMole);
 		assertTrue(point == 0);
@@ -87,20 +85,18 @@ public class MoleControllerTest extends TestCase {
 		int holeNum = 0;
 		long birthTime = 0;
 		moleController.mole[holeNum] = new MiddlePointMole(birthTime);
-		boolean isRemoved = moleController.removeMoleLifeTimeEnded(holeNum);
+		moleController.removeMoleLifeTimeEnded(holeNum);
 		Mole existMole = moleController.getMole(holeNum);
 		assertNull(existMole);
-		assertTrue(isRemoved);
 	}
 	
 	public void test_removeMoleLifeTimeEndedによって_寿命内のモグラはそのまま() throws Exception {
 		int holeNum = 0;
 		long birthTime = System.currentTimeMillis();
 		moleController.mole[holeNum] = new MiddlePointMole(birthTime);
-		boolean isRemoved = moleController.removeMoleLifeTimeEnded(holeNum);
+		moleController.removeMoleLifeTimeEnded(holeNum);
 		Mole existMole = moleController.getMole(holeNum);
 		assertNotNull(existMole);
-		assertFalse(isRemoved);
 	}
 	
 	public void test_removeAllMoleによって_すべてのモグラが消される() throws Exception {

@@ -22,9 +22,9 @@ public class MoleController extends Observable{
 		return r.nextInt(HOLE_NUMBER * RANDOM_FACTOR);
 	}
 	
-	public boolean createMole(int holeNum, int type) {
+	public void createMole(int holeNum, int type) {
 		if (HOLE_NUMBER <= holeNum) {
-			return false;
+			return;
 		}
 		if (mole[holeNum] == null) {
 			switch(type) {
@@ -40,40 +40,43 @@ public class MoleController extends Observable{
 				this.mole[holeNum] = new MinusPointMole(System.currentTimeMillis());
 				break;
 			default:
-				return false;
+				break;
 			}
-			return true;
+			setChanged();
 		}
-		return false;
 	}
 	
-	public int touch(int holeNum) {
+	public int getTouchedMolePoint(int holeNum) {
+		if (mole[holeNum] == null) {
+			return 0;
+		}
+		return mole[holeNum].getPoint();
+	}
+	
+	public void touch(int holeNum) {
 		if (mole[holeNum] != null) {
 			mole[holeNum].whac();
+			setChanged();
 //			うまくうごかなーい
 //			viewController.popGotPoint(holeNum, mole[holeNum]);
-			int point = mole[holeNum].getPoint();
 			mole[holeNum] = null;
-			return point;
 		}
-		return 0;
 	}
 
-	public boolean removeMoleLifeTimeEnded(int holeNum) {
-			if(mole[holeNum] != null && !mole[holeNum].isLiving(System.currentTimeMillis())) {
-				mole[holeNum] = null;
-				return true;
-			}
-			return false;
+	public void removeMoleLifeTimeEnded(int holeNum) {
+		if(mole[holeNum] != null && !mole[holeNum].isLiving(System.currentTimeMillis())) {
+			mole[holeNum] = null;
+			setChanged();
+		}
 	}
 
 	public void removeAllMole() {
 		for(int i = 0; i < HOLE_NUMBER; i++) {
+			setChanged();
 			mole[i] = null;
 		}
 	}
 
-	// TODO: テストのために作ったアクセッサだよ
 	public Mole getMole(int holeNum) {
 		if (MoleController.HOLE_NUMBER <= holeNum) {
 			return null;
