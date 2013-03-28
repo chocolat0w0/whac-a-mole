@@ -2,6 +2,8 @@ package com.chocolat0w0.whac_a_mole;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Observable;
+import java.util.Observer;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -84,18 +86,6 @@ public class HoleView extends View implements Observer {
 		return holeNum;
 	}
 	
-	public void addMole(int i, Mole mole) {
-		if(mole.getType() == EnumMoleType.MIDDLE) {
-			mBitmap[i] = BitmapFactory.decodeResource(getResources(), R.drawable.mole1);
-		}
-		else if(mole.getType() == EnumMoleType.HIGH){
-			mBitmap[i] = BitmapFactory.decodeResource(getResources(), R.drawable.mole2);
-		}
-		else if(mole.getType() == EnumMoleType.MINUS) {
-			mBitmap[i] = BitmapFactory.decodeResource(getResources(), R.drawable.mole3);
-		}
-	}
-	
 	public boolean isExisted(float x, float y) {
 		for (int i = 0; i < MoleController.HOLE_NUMBER; i++) {
 			if(holeArea[i].isContain(x, y)) {
@@ -105,7 +95,7 @@ public class HoleView extends View implements Observer {
 		return false;
 	}
 	
-	public int touchedHoleNum(float x, float y) {
+	public int getTouchedHoleNum(float x, float y) {
 		for (int i = 0; i < MoleController.HOLE_NUMBER; i++) {
 			if(holeArea[i].isContain(x, y)) {
 				return i;
@@ -115,17 +105,55 @@ public class HoleView extends View implements Observer {
 		return 0;
 	}
 	
-	public void removeMole(int holeNum) {
-		mBitmap[holeNum] = BitmapFactory.decodeResource(getResources(), R.drawable.hole);
+	public void popGotPoint(int holeNum, Mole mole) {
+		// TODO 子viewをもう一枚つくって操作する？
+		Bitmap image = null;
+		switch(mole.getType()) {
+		case MIDDLE:
+			image = BitmapFactory.decodeResource(getResources(), R.drawable.p300);
+			break;
+		case HIGH:
+			image = BitmapFactory.decodeResource(getResources(), R.drawable.p500);
+			break;
+		case MINUS:
+			image = BitmapFactory.decodeResource(getResources(), R.drawable.m600);
+			break;
+		default:
+			image = BitmapFactory.decodeResource(getResources(), R.drawable.p300);
+			break;
+		}
+		
+		 canvas.drawBitmap(image,
+				holeArea[holeNum].left,
+				holeArea[holeNum].top,
+				mPaint[holeNum]);
+		
+		
 	}
-	
+
+	@Override
+	public void update(Observable observable, Object arg) {
+		MoleController moles = (MoleController) arg;
+		for (int i = 0; i < MoleController.HOLE_NUMBER; i++) {
+			if(moles.getMole(i) == null) {
+				mBitmap[i] = BitmapFactory.decodeResource(getResources(), R.drawable.hole);
+			} else if (moles.getMole(i).getType() == EnumMoleType.MIDDLE) {
+				mBitmap[i] = BitmapFactory.decodeResource(getResources(), R.drawable.mole1);
+			} else if(moles.getMole(i).getType() == EnumMoleType.HIGH){
+				mBitmap[i] = BitmapFactory.decodeResource(getResources(), R.drawable.mole2);
+			} else if(moles.getMole(i).getType() == EnumMoleType.MINUS) {
+				mBitmap[i] = BitmapFactory.decodeResource(getResources(), R.drawable.mole3);
+			}
+		}
+	}
+
 	@SuppressWarnings({ "deprecation", "rawtypes" })
 	void overrideGetSize(Display display, Point outSize) {
 	    try {
 	      // test for new method to trigger exception
 	      Class pointClass = Class.forName("android.graphics.Point");
 	      Method newGetSize = Display.class.getMethod("getSize", new Class[]{ pointClass });
-
+	
 	      // no exception, so new method is available, just use it
 	      newGetSize.invoke(display, outSize);
 	    } catch(NoSuchMethodException ex) {
@@ -162,32 +190,6 @@ public class HoleView extends View implements Observer {
 			}
 			return false;
 		}
-	}
-
-	public void popGotPoint(int holeNum, Mole mole) {
-		// TODO 子viewをもう一枚つくって操作する？
-		Bitmap image = null;
-		switch(mole.getType()) {
-		case MIDDLE:
-			image = BitmapFactory.decodeResource(getResources(), R.drawable.p300);
-			break;
-		case HIGH:
-			image = BitmapFactory.decodeResource(getResources(), R.drawable.p500);
-			break;
-		case MINUS:
-			image = BitmapFactory.decodeResource(getResources(), R.drawable.m600);
-			break;
-		default:
-			image = BitmapFactory.decodeResource(getResources(), R.drawable.p300);
-			break;
-		}
-		
-		 canvas.drawBitmap(image,
-				holeArea[holeNum].left,
-				holeArea[holeNum].top,
-				mPaint[holeNum]);
-		
-		
 	}
 
 }

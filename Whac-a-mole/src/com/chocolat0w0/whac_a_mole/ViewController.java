@@ -12,22 +12,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class ViewController implements Observer{
-	// TODO: タイトルバー分タッチポイントがずれるのを修正。動的に取得したい。。。
-	private static final int TITLE_BAR_HEIGHT = 100;
 	
 	private RelativeLayout viewGroup = null;
 	private TextView txtTimer = null;
 	private TextView txtPoint = null;
-	private HoleView holeView = null;
 	private Context context = null;
 	private Button startBtn = null;
 	private RelativeLayout.LayoutParams layout = null;
 	private static TextView txtDebug = null;
 	
-	public ViewController(Context context, RelativeLayout viewGroup, HoleView holeView) {
+	public ViewController(Context context, RelativeLayout viewGroup) {
 		this.viewGroup = viewGroup;
 		this.context = context;
-		this.holeView = holeView;
 	}
 	
 	public void initDisplay(View gameStatus) {
@@ -73,28 +69,6 @@ public class ViewController implements Observer{
 		viewGroup.addView(startBtn, layout);
 	}
 
-	public void addMole(int holeNum, Mole mole) {
-		holeView.addMole(holeNum, mole);
-	}
-	
-	public void removeMole(int holeNum) {
-		holeView.removeMole(holeNum);
-	}
-
-	public void removeAllMole() {
-		for (int i = 0; i < MoleController.HOLE_NUMBER; i++) {
-			removeMole(i);
-		}
-	}
-
-	public boolean isHole(float x, float y) {
-		return holeView.isExisted(x, y - TITLE_BAR_HEIGHT);
-	}
-
-	public int touchHoleNum(float x, float y) {
-		return holeView.touchedHoleNum(x, y - TITLE_BAR_HEIGHT);
-	}
-
 	@Override
 	public void update(Observable o, Object arg) {
 		float fromX = 1.0F;
@@ -110,14 +84,13 @@ public class ViewController implements Observer{
 	}
 
 	public void refresh() {
-		holeView.invalidate();
 		viewGroup.invalidate();
 	}
 
-	public void popGotPoint(int holeNum, Mole mole) {
-		holeView.popGotPoint(holeNum, mole);
-		
-	}
+//	public void popGotPoint(int holeNum, Mole mole) {
+//		holeView.popGotPoint(holeNum, mole);
+//		
+//	}
 
 	public static void debugInfo(String string) {
 		txtDebug.setText(string);
