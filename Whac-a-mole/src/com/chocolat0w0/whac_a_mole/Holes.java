@@ -14,9 +14,12 @@ public class Holes extends Observable{
 	static final int RANDOM_FACTOR = 10;
 	
 	// TODO: テストのためにアクセス制限緩くしたよ
-	Mole[] mole = new NullMole[HOLE_NUMBER];
+	Mole[] mole = new Mole[HOLE_NUMBER];
 	
 	public Holes() {
+		for (int i = 0; i < HOLE_NUMBER; i++) {
+			mole[i] = new NullMole(System.currentTimeMillis());
+		}
 	}
 	
 	public int randomHoleNumber() {
@@ -49,14 +52,11 @@ public class Holes extends Observable{
 	}
 	
 	public int getTouchedMolePoint(int holeNum) {
-		if (mole[holeNum] == null) {
-			return 0;
-		}
 		return mole[holeNum].getPoint();
 	}
 	
 	public void touch(int holeNum) {
-		if (mole[holeNum] != null) {
+		if (mole[holeNum].getType() != EnumMoleType.NULL) {
 			mole[holeNum].whac();
 			setChanged();
 //			うまくうごかなーい
@@ -67,7 +67,7 @@ public class Holes extends Observable{
 
 	public void removeMoleLifeTimeEnded(int holeNum) {
 		if(mole[holeNum] != null && !mole[holeNum].isLiving(System.currentTimeMillis())) {
-			mole[holeNum] = null;
+			mole[holeNum] = new NullMole(System.currentTimeMillis());
 			setChanged();
 		}
 	}
@@ -75,7 +75,7 @@ public class Holes extends Observable{
 	public void removeAllMole() {
 		for(int i = 0; i < HOLE_NUMBER; i++) {
 			setChanged();
-			mole[i] = null;
+			mole[i] = new NullMole(System.currentTimeMillis());
 		}
 	}
 
