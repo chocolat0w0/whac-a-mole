@@ -21,23 +21,23 @@ public class MainActivity extends Activity implements OnClickListener {
 	private Button btnStart;
 	private RelativeLayout viewGroup = null;
 	private ViewController viewController = null;
-	private HoleView holeView = null;
+	private HolesView holeView = null;
 	private Timer mTimer;
 	private TimerController timerController;
-	private MoleController moleController = null;
+	private Holes holes = null;
 	private Point mPoint = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		viewGroup = new RelativeLayout(this);
-		holeView = new HoleView(this);
 		viewController = new ViewController(this, viewGroup);
-		viewGroup.addView(holeView);
 		mPoint  = new Point();
 		mPoint.addObserver(viewController);
-		moleController = new MoleController();
-		moleController.addObserver(holeView);
+		holes = new Holes();
+		holeView = new HolesView(this, holes);
+		holes.addObserver(holeView);
+		viewGroup.addView(holeView);
 		viewController.initDisplay(getLayoutInflater().inflate(R.layout.game_menu, viewGroup, isChild()));
 		viewController.displayStartButton();
 		setContentView(viewGroup);
@@ -72,7 +72,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		viewController.closeStartBtn();
 		mPoint.init();
 		mTimer = new Timer(true);
-		timerController = new TimerController(viewController, holeView, moleController, mTimer);
+		timerController = new TimerController(viewController, holeView, holes, mTimer);
 		mTimer.schedule(timerController, TIMER_DELAY_MS, TIMER_PERIOD_MS);
 	}
 	
@@ -80,8 +80,8 @@ public class MainActivity extends Activity implements OnClickListener {
 	public boolean onTouchEvent(MotionEvent event) {
 		if ( holeView.isExisted(event.getX(), event.getY() - TITLE_BAR_HEIGHT)) {
 			int touchedHoleNum = holeView.getTouchedHoleNum(event.getX(), event.getY() - TITLE_BAR_HEIGHT);
-			int point = moleController.getTouchedMolePoint(touchedHoleNum);
-			moleController.touch(touchedHoleNum);
+			int point = holes.getTouchedMolePoint(touchedHoleNum);
+			holes.touch(touchedHoleNum);
 			mPoint.add(point);
 		}
 		return true;

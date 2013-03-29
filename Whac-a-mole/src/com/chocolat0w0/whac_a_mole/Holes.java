@@ -3,7 +3,9 @@ package com.chocolat0w0.whac_a_mole;
 import java.util.Observable;
 import java.util.Random;
 
-public class MoleController extends Observable{
+import com.chocolat0w0.whac_a_mole.MoleType.EnumMoleType;
+
+public class Holes extends Observable{
 	
 	static final int HOLE_ROW = 3;
 	static final int HOLE_COLUMN = 3;
@@ -12,9 +14,9 @@ public class MoleController extends Observable{
 	static final int RANDOM_FACTOR = 10;
 	
 	// TODO: テストのためにアクセス制限緩くしたよ
-	Mole[] mole = new Mole[HOLE_NUMBER];
+	Mole[] mole = new NullMole[HOLE_NUMBER];
 	
-	public MoleController() {
+	public Holes() {
 	}
 	
 	public int randomHoleNumber() {
@@ -26,7 +28,7 @@ public class MoleController extends Observable{
 		if (HOLE_NUMBER <= holeNum) {
 			return;
 		}
-		if (mole[holeNum] == null) {
+		if (mole[holeNum].getType() == EnumMoleType.NULL) {
 			switch(type) {
 			case 0:
 				// TODO: 増えてきたら分離必要
@@ -59,7 +61,7 @@ public class MoleController extends Observable{
 			setChanged();
 //			うまくうごかなーい
 //			viewController.popGotPoint(holeNum, mole[holeNum]);
-			mole[holeNum] = null;
+			mole[holeNum] = new NullMole(System.currentTimeMillis());
 		}
 	}
 
@@ -78,7 +80,7 @@ public class MoleController extends Observable{
 	}
 
 	public Mole getMole(int holeNum) {
-		if (MoleController.HOLE_NUMBER <= holeNum) {
+		if (Holes.HOLE_NUMBER <= holeNum) {
 			return null;
 		}
 		return mole[holeNum];

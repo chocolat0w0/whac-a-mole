@@ -4,13 +4,13 @@ import com.chocolat0w0.whac_a_mole.MoleType.EnumMoleType;
 
 public abstract class BasicMole {
 	private int point = 100;
-	private long life_time_millis = 2000;
+	private long lifeTimeMillis = 2000;
 	private EnumMoleType type = EnumMoleType.BASIC;
 	
 	private final long deathTime;
 
 	public BasicMole(long birthTime) {
-		this.deathTime = birthTime + life_time_millis;
+		this.deathTime = birthTime + lifeTimeMillis;
 	}
 
 	public void whac() {
@@ -38,6 +38,10 @@ public abstract class BasicMole {
 
 	public void setPoint(int point) {
 		this.point = point;
+	}
+	
+	public void setLifeTimeMillis(long lifeTimeMillis) {
+		this.lifeTimeMillis = lifeTimeMillis;
 	}
 
 }
