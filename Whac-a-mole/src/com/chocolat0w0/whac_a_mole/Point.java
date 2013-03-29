@@ -13,13 +13,13 @@ public class Point extends Observable {
 	public void add(int point) {
 		totalPoint += point;
 		setChanged();
-		notifyObservers(this);
+		notifyObservers();
 	}
 	
 	public void init() {
 		totalPoint = 0;
 		setChanged();
-		notifyObservers(this);
+		notifyObservers();
 	}
 	
 	public int getPoint() {

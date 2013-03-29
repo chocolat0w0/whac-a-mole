@@ -40,7 +40,7 @@ public class MoleController extends Observable{
 				this.mole[holeNum] = new MinusPointMole(System.currentTimeMillis());
 				break;
 			default:
-				break;
+				return;
 			}
 			setChanged();
 		}

@@ -1,11 +1,10 @@
 package com.chocolat0w0.whac_a_mole;
 
-import java.io.Console;
 import java.util.EnumSet;
 
-import com.chocolat0w0.whac_a_mole.MoleType.EnumMoleType;
-
 import junit.framework.TestCase;
+
+import com.chocolat0w0.whac_a_mole.MoleType.EnumMoleType;
 
 public class MoleControllerTest extends TestCase {
 	
@@ -16,6 +15,7 @@ public class MoleControllerTest extends TestCase {
 		super.setUp();
 		moleController = new MoleController();
 		moleController.removeAllMole();
+		moleController.notifyObservers();
 	}
 	
 	public void test_randomHoleNumberによって_0以上_穴の数xランダム係数未満の整数が得られる() 
@@ -34,6 +34,7 @@ public class MoleControllerTest extends TestCase {
 		moleController.createMole(holeNum, type);
 		Mole createdMole = moleController.getMole(holeNum);
 		assertNotNull(createdMole);
+		assertTrue(moleController.hasChanged());
 	}
 	
 	public void test_createMoleによって_指定された穴が存在しない場合は新たにモグラを生成しない() throws Exception {
@@ -42,6 +43,7 @@ public class MoleControllerTest extends TestCase {
 		moleController.createMole(holeNum, type);
 		Mole createdMole = moleController.getMole(holeNum);
 		assertNull(createdMole);
+		assertFalse(moleController.hasChanged());
 	}
 
 	public void test_createMoleによって_指定されたモグラタイプが存在しない場合新たにモグラを生成しない() throws Exception {
@@ -50,13 +52,17 @@ public class MoleControllerTest extends TestCase {
 		moleController.createMole(holeNum, type);
 		Mole createdMole = moleController.getMole(holeNum);
 		assertNull(createdMole);
+		assertFalse(moleController.hasChanged());
 	}
 	
 	public void test_createMoleによって_指定された穴にモグラが既に出現している場合は新たにモグラを生成しない() throws Exception {
 		int holeNum = 0;
 		int type = 0;
 		moleController.createMole(holeNum, type);
+		assertTrue(moleController.hasChanged());
+		moleController.notifyObservers();
 		moleController.createMole(holeNum, type);
+		assertFalse(moleController.hasChanged());
 		Mole createdMole = moleController.getMole(holeNum);
 		assertNotNull(createdMole);
 	}
@@ -70,6 +76,7 @@ public class MoleControllerTest extends TestCase {
 		Mole existMole = moleController.getMole(holeNum);
 		assertNull(existMole);
 		assertTrue(point != 0);
+		assertTrue(moleController.hasChanged());
 	}
 	
 	public void test_touchによって_モグラがいない場合叩けない() throws Exception {
@@ -79,6 +86,7 @@ public class MoleControllerTest extends TestCase {
 		Mole existMole = moleController.getMole(holeNum);
 		assertNull(existMole);
 		assertTrue(point == 0);
+		assertFalse(moleController.hasChanged());
 	}
 
 	public void test_removeMoleLifeTimeEndedによって_寿命を超えているモグラは消える() throws Exception {
@@ -88,6 +96,7 @@ public class MoleControllerTest extends TestCase {
 		moleController.removeMoleLifeTimeEnded(holeNum);
 		Mole existMole = moleController.getMole(holeNum);
 		assertNull(existMole);
+		assertTrue(moleController.hasChanged());
 	}
 	
 	public void test_removeMoleLifeTimeEndedによって_寿命内のモグラはそのまま() throws Exception {
@@ -97,6 +106,7 @@ public class MoleControllerTest extends TestCase {
 		moleController.removeMoleLifeTimeEnded(holeNum);
 		Mole existMole = moleController.getMole(holeNum);
 		assertNotNull(existMole);
+		assertFalse(moleController.hasChanged());
 	}
 	
 	public void test_removeAllMoleによって_すべてのモグラが消される() throws Exception {
@@ -110,6 +120,7 @@ public class MoleControllerTest extends TestCase {
 		Mole existMole2 = moleController.getMole(holeNum2);
 		assertNull(existMole1);
 		assertNull(existMole2);
+		assertTrue(moleController.hasChanged());
 	}
 
 	
