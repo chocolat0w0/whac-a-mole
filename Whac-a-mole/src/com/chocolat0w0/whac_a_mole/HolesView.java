@@ -16,8 +16,6 @@ import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.chocolat0w0.whac_a_mole.MoleType.EnumMoleType;
-
 @SuppressLint("NewApi")
 public class HolesView extends View implements Observer {
 	
@@ -64,13 +62,6 @@ public class HolesView extends View implements Observer {
 					image.getHeight() * resizedWidth / image.getWidth(), 
 					true);
 		}
-//		if(windowSize.x / Holes.HOLE_COLUMN < mBitmap[holeNum].getWidth()) {
-//			final int resizedWidth = windowSize.x / (Holes.HOLE_COLUMN+1) - 10;
-//			mBitmap[holeNum] = Bitmap.createScaledBitmap(mBitmap[holeNum], 
-//					resizedWidth, 
-//					mBitmap[holeNum].getHeight() * resizedWidth / mBitmap[holeNum].getWidth(), 
-//					true);
-//		}
 	}
 
 	private void setHoleArea(int x, int y, Bitmap image) {
@@ -89,10 +80,6 @@ public class HolesView extends View implements Observer {
 				holeArea[holeNum].left,
 				holeArea[holeNum].top,
 				mPaint[holeNum]);
-//		canvas.drawBitmap(mBitmap[holeNum],
-//				holeArea[holeNum].left,
-//				holeArea[holeNum].top,
-//				mPaint[holeNum]);
 	}
 
 	private int calcHoleNumber(int x, int y) {
@@ -121,18 +108,11 @@ public class HolesView extends View implements Observer {
 	
 	@Override
 	public void update(Observable o, Object arg) {
-//		Holes moles = (Holes) o;
-//		for (int i = 0; i < Holes.HOLE_NUMBER; i++) {
-//			if(moles.getMole(i) == null) {
-//				mBitmap[i] = BitmapFactory.decodeResource(getResources(), R.drawable.hole);
-//			} else if (moles.getMole(i).getType() == EnumMoleType.MIDDLE) {
-//				mBitmap[i] = BitmapFactory.decodeResource(getResources(), R.drawable.mole1);
-//			} else if(moles.getMole(i).getType() == EnumMoleType.HIGH) {
-//				mBitmap[i] = BitmapFactory.decodeResource(getResources(), R.drawable.mole2);
-//			} else if(moles.getMole(i).getType() == EnumMoleType.MINUS) {
-//				mBitmap[i] = BitmapFactory.decodeResource(getResources(), R.drawable.mole3);
-//			}
-//		}
+		Holes holes = (Holes) o;
+		ViewController.debugInfo("ここきた？");
+		for (int i = 0; i < Holes.HOLE_NUMBER; i++) {
+			holeView[i].changeMole(holes.getMole(i));
+		}
 	}
 
 	@SuppressWarnings({ "deprecation", "rawtypes" })

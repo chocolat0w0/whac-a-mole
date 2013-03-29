@@ -1,15 +1,17 @@
 package com.chocolat0w0.whac_a_mole;
 
-import android.graphics.Bitmap;
 
 class HoleView {
 
 	private int holeNum;
 	private Mole mole = null;
-	private Bitmap mBitmap = null;
 	
 	public HoleView(int holeNum, Mole mole) {
 		this.holeNum = holeNum;
+		this.mole = mole;
+	}
+	
+	public void changeMole(Mole mole) {
 		this.mole = mole;
 	}
 	
@@ -30,7 +32,7 @@ class HoleView {
 			break;
 		}
 
-		return 0;
+		return R.drawable.hole;
 	}
 	
 }
