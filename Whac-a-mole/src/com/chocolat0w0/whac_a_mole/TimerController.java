@@ -40,7 +40,7 @@ public class TimerController extends TimerTask {
 				if(LIMIT_TIME_MILLIS <= elapsedTimeMillis) {
 					mTimer.cancel();
 					moleController.removeAllMole();
-					moleController.notifyObservers(moleController);
+					moleController.notifyObservers();
 					viewController.refresh();
 					viewController.displayEndMenu();
 					viewController.refresh();
@@ -54,7 +54,7 @@ public class TimerController extends TimerTask {
 				for (int i = 0; i < MoleController.HOLE_NUMBER; i++) {
 					moleController.removeMoleLifeTimeEnded(i);
 				}
-				moleController.notifyObservers(moleController);
+				moleController.notifyObservers();
 				viewController.refresh();
 				holeView.invalidate();
 			}

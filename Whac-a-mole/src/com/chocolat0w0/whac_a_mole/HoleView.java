@@ -105,41 +105,15 @@ public class HoleView extends View implements Observer {
 		return 0;
 	}
 	
-	public void popGotPoint(int holeNum, Mole mole) {
-		// TODO 子viewをもう一枚つくって操作する？
-		Bitmap image = null;
-		switch(mole.getType()) {
-		case MIDDLE:
-			image = BitmapFactory.decodeResource(getResources(), R.drawable.p300);
-			break;
-		case HIGH:
-			image = BitmapFactory.decodeResource(getResources(), R.drawable.p500);
-			break;
-		case MINUS:
-			image = BitmapFactory.decodeResource(getResources(), R.drawable.m600);
-			break;
-		default:
-			image = BitmapFactory.decodeResource(getResources(), R.drawable.p300);
-			break;
-		}
-		
-		 canvas.drawBitmap(image,
-				holeArea[holeNum].left,
-				holeArea[holeNum].top,
-				mPaint[holeNum]);
-		
-		
-	}
-
 	@Override
-	public void update(Observable observable, Object arg) {
-		MoleController moles = (MoleController) arg;
+	public void update(Observable o, Object arg) {
+		MoleController moles = (MoleController) o;
 		for (int i = 0; i < MoleController.HOLE_NUMBER; i++) {
 			if(moles.getMole(i) == null) {
 				mBitmap[i] = BitmapFactory.decodeResource(getResources(), R.drawable.hole);
 			} else if (moles.getMole(i).getType() == EnumMoleType.MIDDLE) {
 				mBitmap[i] = BitmapFactory.decodeResource(getResources(), R.drawable.mole1);
-			} else if(moles.getMole(i).getType() == EnumMoleType.HIGH){
+			} else if(moles.getMole(i).getType() == EnumMoleType.HIGH) {
 				mBitmap[i] = BitmapFactory.decodeResource(getResources(), R.drawable.mole2);
 			} else if(moles.getMole(i).getType() == EnumMoleType.MINUS) {
 				mBitmap[i] = BitmapFactory.decodeResource(getResources(), R.drawable.mole3);
@@ -190,6 +164,32 @@ public class HoleView extends View implements Observer {
 			}
 			return false;
 		}
+	}
+
+	public void popGotPoint(int holeNum, Mole mole) {
+		// TODO 子viewをもう一枚つくって操作する？
+		Bitmap image = null;
+		switch(mole.getType()) {
+		case MIDDLE:
+			image = BitmapFactory.decodeResource(getResources(), R.drawable.p300);
+			break;
+		case HIGH:
+			image = BitmapFactory.decodeResource(getResources(), R.drawable.p500);
+			break;
+		case MINUS:
+			image = BitmapFactory.decodeResource(getResources(), R.drawable.m600);
+			break;
+		default:
+			image = BitmapFactory.decodeResource(getResources(), R.drawable.p300);
+			break;
+		}
+		
+		 canvas.drawBitmap(image,
+				holeArea[holeNum].left,
+				holeArea[holeNum].top,
+				mPaint[holeNum]);
+		
+		
 	}
 
 }
