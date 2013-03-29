@@ -1,19 +1,17 @@
 package com.chocolat0w0.whac_a_mole;
 
 import java.util.EnumSet;
-
 import junit.framework.TestCase;
-
 import com.chocolat0w0.whac_a_mole.MoleType.EnumMoleType;
 
-public class MoleControllerTest extends TestCase {
+public class HolesTest extends TestCase {
 	
-	MoleController moleController;
+	Holes moleController;
 	
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		moleController = new MoleController();
+		moleController = new Holes();
 		moleController.removeAllMole();
 		moleController.notifyObservers();
 	}
@@ -21,8 +19,8 @@ public class MoleControllerTest extends TestCase {
 	public void test_randomHoleNumberによって_0以上_穴の数xランダム係数未満の整数が得られる() 
 			throws Exception {
 		int expected_minNum = 0;
-		int expected_maxNum = MoleController.HOLE_NUMBER 
-				* MoleController.RANDOM_FACTOR;
+		int expected_maxNum = Holes.HOLE_NUMBER 
+				* Holes.RANDOM_FACTOR;
 		int randomNum = moleController.randomHoleNumber();
 		assertTrue(expected_minNum <= randomNum);
 		assertTrue(randomNum < expected_maxNum);
@@ -38,7 +36,7 @@ public class MoleControllerTest extends TestCase {
 	}
 	
 	public void test_createMoleによって_指定された穴が存在しない場合は新たにモグラを生成しない() throws Exception {
-		int holeNum = MoleController.HOLE_NUMBER + 1;
+		int holeNum = Holes.HOLE_NUMBER + 1;
 		int type = 0;
 		moleController.createMole(holeNum, type);
 		Mole createdMole = moleController.getMole(holeNum);

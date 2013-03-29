@@ -12,19 +12,19 @@ public class TimerController extends TimerTask {
 	
 	private Handler mHandler = null;
 	private ViewController viewController = null;
-	private HoleView holeView = null;
-	private MoleController moleController = null;
+	private HolesView holeView = null;
+	private Holes holes = null;
 	private Timer mTimer = null;
 	private long startTimeMillis = 0;
 	private long elapsedTimeMillis = 0;
 	
 	
-	public TimerController(ViewController viewCtr, HoleView holeView, MoleController moleCtr, Timer mTimer) {
+	public TimerController(ViewController viewCtr, HolesView holeView, Holes moleCtr, Timer mTimer) {
 		super();
 		mHandler = new Handler();
 		this.viewController = viewCtr;
 		this.holeView = holeView;
-		this.moleController = moleCtr;
+		this.holes = moleCtr;
 		this.mTimer = mTimer;
 		startTimeMillis = System.currentTimeMillis();
 	}
@@ -39,8 +39,8 @@ public class TimerController extends TimerTask {
 				elapsedTimeMillis = System.currentTimeMillis() - startTimeMillis;
 				if(LIMIT_TIME_MILLIS <= elapsedTimeMillis) {
 					mTimer.cancel();
-					moleController.removeAllMole();
-					moleController.notifyObservers();
+					holes.removeAllMole();
+					holes.notifyObservers();
 					viewController.refresh();
 					viewController.displayEndMenu();
 					viewController.refresh();
@@ -49,12 +49,12 @@ public class TimerController extends TimerTask {
 				}
 
 				viewController.changeTime(LIMIT_TIME_MILLIS - elapsedTimeMillis);
-				int randomHoleNum = moleController.randomHoleNumber();
-				moleController.createMole(randomHoleNum, new Random().nextInt(3));
-				for (int i = 0; i < MoleController.HOLE_NUMBER; i++) {
-					moleController.removeMoleLifeTimeEnded(i);
+				int randomHoleNum = holes.randomHoleNumber();
+				holes.createMole(randomHoleNum, new Random().nextInt(3));
+				for (int i = 0; i < Holes.HOLE_NUMBER; i++) {
+					holes.removeMoleLifeTimeEnded(i);
 				}
-				moleController.notifyObservers();
+				holes.notifyObservers();
 				viewController.refresh();
 				holeView.invalidate();
 			}
