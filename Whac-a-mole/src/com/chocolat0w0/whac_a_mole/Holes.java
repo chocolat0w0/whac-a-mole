@@ -16,12 +16,13 @@ public class Holes extends Observable{
 	private Mole[] mole = new Mole[HOLE_NUMBER];
 	
 	public Holes() {
+		long birthTime = System.currentTimeMillis();
 		for (int i = 0; i < HOLE_NUMBER; i++) {
-			mole[i] = new NullMole(System.currentTimeMillis());
+			mole[i] = new NullMole(birthTime, i);
 		}
 	}
 	
-	public int randomHoleNumber() {
+	public int getRandomHoleNumber() {
 		Random r = new Random();
 		return r.nextInt(HOLE_NUMBER * RANDOM_FACTOR);
 	}
@@ -30,18 +31,18 @@ public class Holes extends Observable{
 		if (HOLE_NUMBER <= holeNum) {
 			return;
 		}
-		if (mole[holeNum].getType() == EnumMoleType.NULL) {
+		if (getMole(holeNum).getType() == EnumMoleType.NULL) {
 			switch(type) {
 			case 0:
 				// TODO: 増えてきたら分離必要
 				// TODO: 状態クラスを渡してnew　とか　パラメータ渡して作る　とか
-				this.mole[holeNum] = new MiddlePointMole(System.currentTimeMillis());
+				this.mole[holeNum] = new MiddlePointMole(System.currentTimeMillis(), holeNum);
 				break;
 			case 1:
-				this.mole[holeNum] = new HighPointMole(System.currentTimeMillis());
+				this.mole[holeNum] = new HighPointMole(System.currentTimeMillis(), holeNum);
 				break;
 			case 2:
-				this.mole[holeNum] = new MinusPointMole(System.currentTimeMillis());
+				this.mole[holeNum] = new MinusPointMole(System.currentTimeMillis(), holeNum);
 				break;
 			default:
 				return;
@@ -51,30 +52,31 @@ public class Holes extends Observable{
 	}
 	
 	public int getTouchedMolePoint(int holeNum) {
-		return mole[holeNum].getPoint();
+		return getMole(holeNum).getPoint();
 	}
 	
 	public void touch(int holeNum) {
-		if (mole[holeNum].getType() != EnumMoleType.NULL) {
-			mole[holeNum].whac();
+		if (getMole(holeNum).getType() != EnumMoleType.NULL) {
+			getMole(holeNum).whac();
 			setChanged();
 //			うまくうごかなーい
 //			viewController.popGotPoint(holeNum, mole[holeNum]);
-			mole[holeNum] = new NullMole(System.currentTimeMillis());
+			mole[holeNum] = new NullMole(System.currentTimeMillis(), holeNum);
 		}
 	}
 
 	public void removeMoleLifeTimeEnded(int holeNum, long currentTime) {
-		if(mole[holeNum] != null && !mole[holeNum].isLiving(currentTime)) {
-			mole[holeNum] = new NullMole(System.currentTimeMillis());
+		if(getMole(holeNum) != null && !getMole(holeNum).isLiving(currentTime)) {
+			mole[holeNum] = new NullMole(System.currentTimeMillis(), holeNum);
 			setChanged();
 		}
 	}
 
 	public void removeAllMole() {
+		long birthTime = System.currentTimeMillis();
 		for(int i = 0; i < HOLE_NUMBER; i++) {
 			setChanged();
-			mole[i] = new NullMole(System.currentTimeMillis());
+			mole[i] = new NullMole(birthTime, i);
 		}
 	}
 
@@ -82,6 +84,11 @@ public class Holes extends Observable{
 		if (Holes.HOLE_NUMBER <= holeNum) {
 			return null;
 		}
-		return mole[holeNum];
+		for (Mole m : mole) {
+			if (m.getHoleNumber() == holeNum) {
+				return m;
+			}
+		}
+		return null;
 	}	
 }
