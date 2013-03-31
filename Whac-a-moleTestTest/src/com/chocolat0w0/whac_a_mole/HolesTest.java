@@ -92,10 +92,11 @@ public class HolesTest extends TestCase {
 
 	public void test_removeMoleLifeTimeEndedによって_寿命を超えているモグラは消える() throws Exception {
 		int holeNum = 0;
-		long birthTime = 0;
+		int type = 0;
 		EnumMoleType expected = EnumMoleType.NULL;
-		holes.mole[holeNum] = new MiddlePointMole(birthTime);
-		holes.removeMoleLifeTimeEnded(holeNum);
+		holes.createMole(holeNum, type);
+		holes.notifyObservers();
+		holes.removeMoleLifeTimeEnded(holeNum, Long.MAX_VALUE);
 		Mole existMole = holes.getMole(holeNum);
 		assertEquals(expected, existMole.getType());
 		assertTrue(holes.hasChanged());
@@ -103,21 +104,25 @@ public class HolesTest extends TestCase {
 	
 	public void test_removeMoleLifeTimeEndedによって_寿命内のモグラはそのまま() throws Exception {
 		int holeNum = 0;
-		long birthTime = System.currentTimeMillis();
-		holes.mole[holeNum] = new MiddlePointMole(birthTime);
-		holes.removeMoleLifeTimeEnded(holeNum);
+		int type = 0;
+		EnumMoleType expected = EnumMoleType.MIDDLE;
+		long currentTime = System.currentTimeMillis();
+		holes.createMole(holeNum, type);
+		holes.notifyObservers();
+		holes.removeMoleLifeTimeEnded(holeNum, currentTime);
 		Mole existMole = holes.getMole(holeNum);
-		assertNotNull(existMole);
+		assertEquals(expected, existMole.getType());
 		assertFalse(holes.hasChanged());
 	}
 	
 	public void test_removeAllMoleによって_すべてのモグラが消される() throws Exception {
 		int holeNum1 = 0;
 		int holeNum2 = 1;
-		long birthTime = System.currentTimeMillis();
+		int type = 0;
 		EnumMoleType expected = EnumMoleType.NULL;
-		holes.mole[holeNum1] = new MiddlePointMole(birthTime);
-		holes.mole[holeNum2] = new MiddlePointMole(birthTime);
+		holes.createMole(holeNum1, type);
+		holes.createMole(holeNum2, type);
+		holes.notifyObservers();
 		holes.removeAllMole();
 		Mole existMole1 = holes.getMole(holeNum1);
 		Mole existMole2 = holes.getMole(holeNum2);
