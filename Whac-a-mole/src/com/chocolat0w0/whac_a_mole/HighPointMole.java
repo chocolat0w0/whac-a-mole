@@ -9,4 +9,10 @@ class HighPointMole extends BasicMole implements Mole {
 		setPoint(500);
 		setType(EnumMoleType.HIGH);
 	}
+	
+	public HighPointMole(long birthTime, int holeNumber) {
+		super(birthTime, holeNumber);
+		setPoint(500);
+		setType(EnumMoleType.HIGH);
+	}
 }

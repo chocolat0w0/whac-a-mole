@@ -6,11 +6,17 @@ public abstract class BasicMole {
 	private int point = 100;
 	private long lifeTimeMillis = 2000;
 	private EnumMoleType type = EnumMoleType.BASIC;
+	private int holeNumber;
 	
 	private final long deathTime;
-
+	
 	public BasicMole(long birthTime) {
 		this.deathTime = birthTime + lifeTimeMillis;
+	}
+
+	public BasicMole(long birthTime, int holeNumber) {
+		this.deathTime = birthTime + lifeTimeMillis;
+		this.holeNumber = holeNumber;
 	}
 
 	public void whac() {
@@ -42,6 +48,10 @@ public abstract class BasicMole {
 	
 	public void setLifeTimeMillis(long lifeTimeMillis) {
 		this.lifeTimeMillis = lifeTimeMillis;
+	}
+	
+	public int getHoleNumber() {
+		return holeNumber;
 	}
 
 }

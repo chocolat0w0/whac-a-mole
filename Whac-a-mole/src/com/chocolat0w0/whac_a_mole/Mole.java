@@ -7,4 +7,5 @@ interface Mole {
 	public boolean isLiving(long currentTime);
 	public EnumMoleType getType();
 	public int getPoint();
+	public int getHoleNumber();
 }

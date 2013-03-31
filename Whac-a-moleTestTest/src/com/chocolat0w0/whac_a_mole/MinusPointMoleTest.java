@@ -6,13 +6,14 @@ import junit.framework.TestCase;
 
 public class MinusPointMoleTest extends TestCase {
 	
-	Mole mMole;
-	long birthTime = 0;
+	private Mole mMole;
+	private long birthTime = 0;
+	private int holeNumber = 0;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		mMole = new MinusPointMole(birthTime);
+		mMole = new MinusPointMole(birthTime, holeNumber );
 	}
 	
 	public void test_寿命内の場合isLivingの返り値がtrueである() throws Exception {

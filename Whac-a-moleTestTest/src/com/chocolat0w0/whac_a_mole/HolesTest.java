@@ -21,7 +21,7 @@ public class HolesTest extends TestCase {
 		int expected_minNum = 0;
 		int expected_maxNum = Holes.HOLE_NUMBER 
 				* Holes.RANDOM_FACTOR;
-		int randomNum = holes.randomHoleNumber();
+		int randomNum = holes.getRandomHoleNumber();
 		assertTrue(expected_minNum <= randomNum);
 		assertTrue(randomNum < expected_maxNum);
 	}

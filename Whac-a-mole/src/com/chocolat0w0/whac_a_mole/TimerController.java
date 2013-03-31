@@ -49,7 +49,7 @@ public class TimerController extends TimerTask {
 				}
 
 				viewController.changeTime(LIMIT_TIME_MILLIS - elapsedTimeMillis);
-				int randomHoleNum = holes.randomHoleNumber();
+				int randomHoleNum = holes.getRandomHoleNumber();
 				holes.createMole(randomHoleNum, new Random().nextInt(3));
 				for (int i = 0; i < Holes.HOLE_NUMBER; i++) {
 					holes.removeMoleLifeTimeEnded(i, System.currentTimeMillis());

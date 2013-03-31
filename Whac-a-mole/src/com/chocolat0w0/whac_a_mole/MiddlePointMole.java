@@ -10,4 +10,10 @@ class MiddlePointMole extends BasicMole implements Mole {
 		setType(EnumMoleType.MIDDLE);
 	}
 
+	public MiddlePointMole(long birthTime, int holeNumber) {
+		super(birthTime, holeNumber);
+		setPoint(300);
+		setType(EnumMoleType.MIDDLE);
+	}
+
 }

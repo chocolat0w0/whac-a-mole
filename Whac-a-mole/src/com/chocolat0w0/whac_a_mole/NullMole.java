@@ -10,5 +10,12 @@ public class NullMole extends BasicMole implements Mole {
 		setType(EnumMoleType.NULL);
 		setLifeTimeMillis(Long.MAX_VALUE);
 	}
+	
+	public NullMole(long birthTime, int holeNumber) {
+		super(birthTime, holeNumber);
+		setPoint(0);
+		setType(EnumMoleType.NULL);
+		setLifeTimeMillis(Long.MAX_VALUE);
+	}
 
 }

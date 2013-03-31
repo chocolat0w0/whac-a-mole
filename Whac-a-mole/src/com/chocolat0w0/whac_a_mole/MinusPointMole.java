@@ -9,5 +9,11 @@ class MinusPointMole extends BasicMole implements Mole {
 		setPoint(-600);
 		setType(EnumMoleType.MINUS);
 	}
+	
+	public MinusPointMole(long birthTime, int holeNumber) {
+		super(birthTime, holeNumber);
+		setPoint(-600);
+		setType(EnumMoleType.MINUS);
+	}
 
 }
