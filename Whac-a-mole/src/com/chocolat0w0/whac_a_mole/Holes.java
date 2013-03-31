@@ -13,8 +13,7 @@ public class Holes extends Observable{
 	// モグラ出現確率。数字が大きいほど低確率。モグラの種類数より大きい必要がある。全モグラ同確率。
 	static final int RANDOM_FACTOR = 10;
 	
-	// TODO: テストのためにアクセス制限緩くしたよ
-	Mole[] mole = new Mole[HOLE_NUMBER];
+	private Mole[] mole = new Mole[HOLE_NUMBER];
 	
 	public Holes() {
 		for (int i = 0; i < HOLE_NUMBER; i++) {
@@ -65,8 +64,8 @@ public class Holes extends Observable{
 		}
 	}
 
-	public void removeMoleLifeTimeEnded(int holeNum) {
-		if(mole[holeNum] != null && !mole[holeNum].isLiving(System.currentTimeMillis())) {
+	public void removeMoleLifeTimeEnded(int holeNum, long currentTime) {
+		if(mole[holeNum] != null && !mole[holeNum].isLiving(currentTime)) {
 			mole[holeNum] = new NullMole(System.currentTimeMillis());
 			setChanged();
 		}

@@ -52,7 +52,7 @@ public class TimerController extends TimerTask {
 				int randomHoleNum = holes.randomHoleNumber();
 				holes.createMole(randomHoleNum, new Random().nextInt(3));
 				for (int i = 0; i < Holes.HOLE_NUMBER; i++) {
-					holes.removeMoleLifeTimeEnded(i);
+					holes.removeMoleLifeTimeEnded(i, System.currentTimeMillis());
 				}
 				holes.notifyObservers();
 				viewController.refresh();
