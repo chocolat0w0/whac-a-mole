@@ -32,7 +32,7 @@ public class HolesView extends View implements Observer {
 		for (int i = 0; i < Holes.HOLE_NUMBER; i++) {
 			mPaint[i] = new Paint();
 			mBitmap[i] = BitmapFactory.decodeResource(getResources(), R.drawable.hole);
-			holeView[i] = new HoleView(i, holes.getMole(i));
+			holeView[i] = new HoleView(i, holes.getMoleAt(i));
 		}
 		WindowManager wm = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
 		Display disp = wm.getDefaultDisplay();
@@ -111,7 +111,7 @@ public class HolesView extends View implements Observer {
 		Holes holes = (Holes) o;
 		ViewController.debugInfo("ここきた？");
 		for (int i = 0; i < Holes.HOLE_NUMBER; i++) {
-			holeView[i].changeMole(holes.getMole(i));
+			holeView[i].changeMole(holes.getMoleAt(i));
 		}
 	}
 

@@ -30,7 +30,7 @@ public class HolesTest extends TestCase {
 		int holeNum = 0;
 		int type = 0;
 		holes.createMole(holeNum, type);
-		Mole createdMole = holes.getMole(holeNum);
+		Mole createdMole = holes.getMoleAt(holeNum);
 		assertNotNull(createdMole);
 		assertTrue(holes.hasChanged());
 	}
@@ -39,7 +39,7 @@ public class HolesTest extends TestCase {
 		int holeNum = Holes.HOLE_NUMBER + 1;
 		int type = 0;
 		holes.createMole(holeNum, type);
-		Mole createdMole = holes.getMole(holeNum);
+		Mole createdMole = holes.getMoleAt(holeNum);
 		assertNull(createdMole);
 		assertFalse(holes.hasChanged());
 	}
@@ -49,7 +49,7 @@ public class HolesTest extends TestCase {
 		int type = EnumSet.allOf(EnumMoleType.class).size() + 1;
 		EnumMoleType expected = EnumMoleType.NULL;
 		holes.createMole(holeNum, type);
-		Mole createdMole = holes.getMole(holeNum);
+		Mole createdMole = holes.getMoleAt(holeNum);
 		assertEquals(expected, createdMole.getType());
 		assertFalse(holes.hasChanged());
 	}
@@ -62,7 +62,7 @@ public class HolesTest extends TestCase {
 		holes.notifyObservers();
 		holes.createMole(holeNum, type);
 		assertFalse(holes.hasChanged());
-		Mole createdMole = holes.getMole(holeNum);
+		Mole createdMole = holes.getMoleAt(holeNum);
 		assertNotNull(createdMole);
 	}
 	
@@ -73,7 +73,7 @@ public class HolesTest extends TestCase {
 		holes.createMole(holeNum, type);
 		int point = holes.getTouchedMolePoint(holeNum);
 		holes.touch(holeNum);
-		Mole existMole = holes.getMole(holeNum);
+		Mole existMole = holes.getMoleAt(holeNum);
 		assertEquals(expected, existMole.getType());
 		assertTrue(point != 0);
 		assertTrue(holes.hasChanged());
@@ -84,7 +84,7 @@ public class HolesTest extends TestCase {
 		int point = holes.getTouchedMolePoint(holeNum);
 		EnumMoleType expected = EnumMoleType.NULL;
 		holes.touch(holeNum);
-		Mole existMole = holes.getMole(holeNum);
+		Mole existMole = holes.getMoleAt(holeNum);
 		assertEquals(expected, existMole.getType());
 		assertTrue(point == 0);
 		assertFalse(holes.hasChanged());
@@ -97,7 +97,7 @@ public class HolesTest extends TestCase {
 		holes.createMole(holeNum, type);
 		holes.notifyObservers();
 		holes.removeMoleLifeTimeEnded(holeNum, Long.MAX_VALUE);
-		Mole existMole = holes.getMole(holeNum);
+		Mole existMole = holes.getMoleAt(holeNum);
 		assertEquals(expected, existMole.getType());
 		assertTrue(holes.hasChanged());
 	}
@@ -110,7 +110,7 @@ public class HolesTest extends TestCase {
 		holes.createMole(holeNum, type);
 		holes.notifyObservers();
 		holes.removeMoleLifeTimeEnded(holeNum, currentTime);
-		Mole existMole = holes.getMole(holeNum);
+		Mole existMole = holes.getMoleAt(holeNum);
 		assertEquals(expected, existMole.getType());
 		assertFalse(holes.hasChanged());
 	}
@@ -124,8 +124,8 @@ public class HolesTest extends TestCase {
 		holes.createMole(holeNum2, type);
 		holes.notifyObservers();
 		holes.removeAllMole();
-		Mole existMole1 = holes.getMole(holeNum1);
-		Mole existMole2 = holes.getMole(holeNum2);
+		Mole existMole1 = holes.getMoleAt(holeNum1);
+		Mole existMole2 = holes.getMoleAt(holeNum2);
 		assertEquals(expected, existMole1.getType());
 		assertEquals(expected, existMole2.getType());
 		assertTrue(holes.hasChanged());
