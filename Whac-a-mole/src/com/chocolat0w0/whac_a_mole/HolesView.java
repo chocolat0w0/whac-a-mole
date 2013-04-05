@@ -45,7 +45,8 @@ public class HolesView extends View implements Observer {
 		this.canvas = canvas;
 		for (int y = 0; y < Holes.HOLE_COLUMN; y++) {
 			for (int x = 0; x < Holes.HOLE_ROW; x++) {
-				Bitmap image = BitmapFactory.decodeResource(getResources(), holeView[calcHoleNumber(x, y)].getImageId());
+				// 
+				Bitmap image = holeView[calcHoleNumber(x,y)].getImage(this);
 				adjustImageSize(x, y, image);
 				setHoleArea(x, y, image);
 				drawHole(x, y, image);

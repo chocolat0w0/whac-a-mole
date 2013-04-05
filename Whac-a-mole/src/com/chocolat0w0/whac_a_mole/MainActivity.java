@@ -78,6 +78,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
+		// TODO: Viewに処理を任せる
 		if ( holeView.isExisted(event.getX(), event.getY() - TITLE_BAR_HEIGHT)) {
 			int touchedHoleNum = holeView.getTouchedHoleNum(event.getX(), event.getY() - TITLE_BAR_HEIGHT);
 			int point = holes.getTouchedMolePoint(touchedHoleNum);
