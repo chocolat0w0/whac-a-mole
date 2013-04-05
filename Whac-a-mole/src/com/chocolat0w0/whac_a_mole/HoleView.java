@@ -1,13 +1,14 @@
 package com.chocolat0w0.whac_a_mole;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 
 class HoleView {
 
-	private int holeNum;
 	private Mole mole = null;
 	
 	public HoleView(int holeNum, Mole mole) {
-		this.holeNum = holeNum;
 		this.mole = mole;
 	}
 	
@@ -33,6 +34,10 @@ class HoleView {
 		}
 
 		return R.drawable.hole;
+	}
+
+	public Bitmap getImage(HolesView holesView) {
+		return BitmapFactory.decodeResource(holesView.getResources(), getImageId());
 	}
 	
 }
