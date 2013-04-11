@@ -9,13 +9,13 @@ import android.test.InstrumentationTestCase;
 
 public class PointTest extends InstrumentationTestCase {
 
-	private Point mPoint;
+	private TotalPoint mPoint;
 	private ViewController mockedViewCtrl;
 	
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		mPoint = new Point();
+		mPoint = new TotalPoint();
 		mockedViewCtrl = mock(ViewController.class);
 		mPoint.addObserver(mockedViewCtrl);
 	}
