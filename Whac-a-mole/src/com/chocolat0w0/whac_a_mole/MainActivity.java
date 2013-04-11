@@ -4,6 +4,7 @@ import java.util.Timer;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Debug;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,6 +13,9 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 
 public class MainActivity extends Activity implements OnClickListener {
+	
+	private static final String TAG = MainActivity.class.getSimpleName();
+	
 	// TODO: タイトルバー分タッチポイントがずれるのを修正。動的に取得したい。。。
 	private static final int TITLE_BAR_HEIGHT = 100;
 
@@ -21,23 +25,24 @@ public class MainActivity extends Activity implements OnClickListener {
 	private Button btnStart;
 	private RelativeLayout viewGroup = null;
 	private ViewController viewController = null;
-	private HolesView holeView = null;
+	private HolesView holesView = null;
+	private HolesController holesController = null;
 	private Timer mTimer;
 	private TimerController timerController;
 	private Holes holes = null;
-	private Point mPoint = null;
+	private TotalPoint mPoint = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+//		Debug.startMethodTracing("whac.trace");
 		super.onCreate(savedInstanceState);
 		viewGroup = new RelativeLayout(this);
 		viewController = new ViewController(this, viewGroup);
-		mPoint  = new Point();
+		mPoint  = new TotalPoint();
 		mPoint.addObserver(viewController);
 		holes = new Holes();
-		holeView = new HolesView(this, holes);
-		holes.addObserver(holeView);
-		viewGroup.addView(holeView);
+		holesController = new HolesController(this, holes, mPoint);
+		holesController.addViewGroup(viewGroup);
 		viewController.initDisplay(getLayoutInflater().inflate(R.layout.game_menu, viewGroup, isChild()));
 		viewController.displayStartButton();
 		setContentView(viewGroup);
@@ -72,20 +77,28 @@ public class MainActivity extends Activity implements OnClickListener {
 		viewController.closeStartBtn();
 		mPoint.init();
 		mTimer = new Timer(true);
-		timerController = new TimerController(viewController, holeView, holes, mTimer);
+//		timerController = new TimerController(viewController, holesView, holes, mTimer);
+		timerController = new TimerController(viewController, holesController, holes, mTimer);
 		mTimer.schedule(timerController, TIMER_DELAY_MS, TIMER_PERIOD_MS);
 	}
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		// TODO: Viewに処理を任せる
-		if ( holeView.isExisted(event.getX(), event.getY() - TITLE_BAR_HEIGHT)) {
-			int touchedHoleNum = holeView.getTouchedHoleNum(event.getX(), event.getY() - TITLE_BAR_HEIGHT);
-			int point = holes.getTouchedMolePoint(touchedHoleNum);
-			holes.touch(touchedHoleNum);
-			mPoint.add(point);
-		}
+//		if ( holesView.isExisted(event.getX(), event.getY() - TITLE_BAR_HEIGHT)) {
+//			int touchedHoleNum = holesView.getTouchedHoleNum(event.getX(), event.getY() - TITLE_BAR_HEIGHT);
+//			int point = holes.getTouchedMolePoint(touchedHoleNum);
+//			holes.touch(touchedHoleNum);
+//			mPoint.add(point);
+//		}
+		holesController.touch(event);
+		
 		return true;
 	}
 
+	@Override
+	public void onDestroy() {
+//		Debug.stopMethodTracing();
+		super.onDestroy();
+	}
 }

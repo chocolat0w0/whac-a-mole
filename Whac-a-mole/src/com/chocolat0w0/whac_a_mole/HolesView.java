@@ -26,6 +26,7 @@ public class HolesView extends View implements Observer {
 	private Bitmap[] mBitmap = new Bitmap[Holes.HOLE_NUMBER];
 	
 	private HoleView[] holeView = new HoleView[Holes.HOLE_NUMBER];
+	private Holes mHoles;
 	
 	public HolesView(Context context, Holes holes) {
 		super(context);
@@ -34,18 +35,34 @@ public class HolesView extends View implements Observer {
 			mBitmap[i] = BitmapFactory.decodeResource(getResources(), R.drawable.hole);
 			holeView[i] = new HoleView(i, holes.getMoleAt(i));
 		}
+		this.mHoles = holes;
 		WindowManager wm = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
 		Display disp = wm.getDefaultDisplay();
 		windowSize = new Point();
 		overrideGetSize(disp, windowSize);
 	}
 	
+	public HolesView(Context context, Holes holes, HoleArea[] holeAreas) {
+		// TODO 自動生成されたコンストラクター・スタブ
+		super(context);
+		for (int i = 0; i < Holes.HOLE_NUMBER; i++) {
+			mPaint[i] = new Paint();
+			mBitmap[i] = BitmapFactory.decodeResource(getResources(), R.drawable.hole);
+			holeView[i] = new HoleView(i, holes.getMoleAt(i));
+		}
+		this.mHoles = holes;
+		this.holeArea = holeAreas;
+		WindowManager wm = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
+		Display disp = wm.getDefaultDisplay();
+		windowSize = new Point();
+		overrideGetSize(disp, windowSize);
+	}
+
 	@Override
 	protected void onDraw(Canvas canvas) {
 		this.canvas = canvas;
 		for (int y = 0; y < Holes.HOLE_COLUMN; y++) {
 			for (int x = 0; x < Holes.HOLE_ROW; x++) {
-				// 
 				Bitmap image = holeView[calcHoleNumber(x,y)].getImage(this);
 				adjustImageSize(x, y, image);
 				setHoleArea(x, y, image);
@@ -78,8 +95,8 @@ public class HolesView extends View implements Observer {
 	private void drawHole(int x, int y, Bitmap image) {
 		int holeNum = calcHoleNumber(x, y);
 		canvas.drawBitmap(image,
-				holeArea[holeNum].left,
-				holeArea[holeNum].top,
+				holeArea[holeNum].getLeft(),
+				holeArea[holeNum].getTop(),
 				mPaint[holeNum]);
 	}
 
@@ -88,29 +105,29 @@ public class HolesView extends View implements Observer {
 		return holeNum;
 	}
 	
-	public boolean isExisted(float x, float y) {
-		for (int i = 0; i < Holes.HOLE_NUMBER; i++) {
-			if(holeArea[i].isContain(x, y)) {
-				return true;
-			}
-		}
-		return false;
-	}
+//	public boolean isExisted(float x, float y) {
+//		for (int i = 0; i < Holes.HOLE_NUMBER; i++) {
+//			if(holeArea[i].isContain(x, y)) {
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
 	
-	public int getTouchedHoleNum(float x, float y) {
-		for (int i = 0; i < Holes.HOLE_NUMBER; i++) {
-			if(holeArea[i].isContain(x, y)) {
-				return i;
-			}
-		}
-		// TODO: error処理
-		return 0;
-	}
+//	public int getTouchedHoleNum(float x, float y) {
+//		for (int i = 0; i < Holes.HOLE_NUMBER; i++) {
+//			if(holeArea[i].isContain(x, y)) {
+//				return i;
+//			}
+//		}
+//		// TODO: error処理
+//		return -1;
+//	}
 	
 	@Override
 	public void update(Observable o, Object arg) {
 		Holes holes = (Holes) o;
-		ViewController.debugInfo("ここきた？");
+//		ViewController.debugInfo("ここきた？");
 		for (int i = 0; i < Holes.HOLE_NUMBER; i++) {
 			holeView[i].changeMole(holes.getMoleAt(i));
 		}
@@ -140,27 +157,6 @@ public class HolesView extends View implements Observer {
 		}
 	}
 
-	class HoleArea {
-		private float left;
-		private float right;
-		private float top;
-		private float bottom;
-		
-		public void setImageArea(int centerX, int centerY, Bitmap image) {
-			left = centerX - image.getWidth() / 2;
-			right = centerX + image.getWidth() / 2;
-			top = centerY - image.getHeight() / 2;
-			bottom = centerY + image.getHeight() / 2;
-		}
-		
-		public boolean isContain(float x, float y) {
-			if (left <= x && x <= right && top <= y && y <= bottom ) {
-				return true;
-			}
-			return false;
-		}
-	}
-
 	public void popGotPoint(int holeNum, Mole mole) {
 		// TODO 子viewをもう一枚つくって操作する？
 		Bitmap image = null;
@@ -180,11 +176,9 @@ public class HolesView extends View implements Observer {
 		}
 		
 		 canvas.drawBitmap(image,
-				holeArea[holeNum].left,
-				holeArea[holeNum].top,
+				holeArea[holeNum].getLeft(),
+				holeArea[holeNum].getTop(),
 				mPaint[holeNum]);
-		
-		
 	}
 
 }

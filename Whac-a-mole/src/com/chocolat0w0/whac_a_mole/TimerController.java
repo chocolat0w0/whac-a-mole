@@ -13,6 +13,7 @@ public class TimerController extends TimerTask {
 	private Handler mHandler = null;
 	private ViewController viewController = null;
 	private HolesView holesView = null;
+	private HolesController holesController = null;
 	private Holes holes = null;
 	private Timer mTimer = null;
 	private long startTimeMillis = 0;
@@ -29,6 +30,15 @@ public class TimerController extends TimerTask {
 		startTimeMillis = System.currentTimeMillis();
 	}
 	
+	public TimerController(ViewController viewCtr, HolesController holesController, Holes holes, Timer mTimer) {
+		super();
+		mHandler = new Handler();
+		this.viewController = viewCtr;
+		this.holesController = holesController;
+		this.holes = holes;
+		this.mTimer = mTimer;
+		startTimeMillis = System.currentTimeMillis();
+	}
 	@Override
 	public void run() {
 		mHandler.post(new Runnable() {
@@ -44,7 +54,8 @@ public class TimerController extends TimerTask {
 					viewController.refresh();
 					viewController.displayEndMenu();
 					viewController.refresh();
-					holesView.invalidate();
+//					holesView.invalidate();
+					holesController.refresh();
 					return;
 				}
 
@@ -56,7 +67,8 @@ public class TimerController extends TimerTask {
 				}
 				holes.notifyObservers();
 				viewController.refresh();
-				holesView.invalidate();
+//				holesView.invalidate();
+				holesController.refresh();
 			}
 		});
 	}

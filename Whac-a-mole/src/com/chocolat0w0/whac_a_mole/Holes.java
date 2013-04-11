@@ -66,10 +66,16 @@ public class Holes extends Observable{
 	}
 
 	int getTouchedMolePoint(int holeNum) {
+		if(HOLE_NUMBER < holeNum) {
+			return 0;
+		}
 		return getMoleAt(holeNum).getPoint();
 	}
 	
 	void touch(int holeNum) {
+		if (getMoleAt(holeNum) == null) {
+			return;
+		}
 		if (getMoleAt(holeNum).getType() != EnumMoleType.NULL) {
 			getMoleAt(holeNum).whac();
 			setChanged();

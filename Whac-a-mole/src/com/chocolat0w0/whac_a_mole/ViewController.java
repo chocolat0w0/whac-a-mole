@@ -76,7 +76,7 @@ public class ViewController implements Observer{
 		float fromY = 1.0F;
 		float toY = 2.5F;
 		long durationMillis = 30;
-		Point point = (Point) o;
+		TotalPoint point = (TotalPoint) o;
 //		Point point = (Point) arg;
 		txtPoint.setText(Integer.toString(point.getPoint()));
 		ScaleAnimation animation = new ScaleAnimation(fromX, toX, fromY, toY);
