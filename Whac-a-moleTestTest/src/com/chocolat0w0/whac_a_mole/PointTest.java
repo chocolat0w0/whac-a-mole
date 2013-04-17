@@ -9,14 +9,24 @@ import android.test.InstrumentationTestCase;
 
 public class PointTest extends InstrumentationTestCase {
 
+<<<<<<< HEAD
 	private Point mPoint;
 	private GameStatusView mockedViewCtrl;
+=======
+	private TotalPoint mPoint;
+	private ViewController mockedViewCtrl;
+>>>>>>> d589424bfa0f46c9d68b358c8f41568d2d12996b
 	
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
+<<<<<<< HEAD
 		mPoint = new Point();
 		mockedViewCtrl = mock(GameStatusView.class);
+=======
+		mPoint = new TotalPoint();
+		mockedViewCtrl = mock(ViewController.class);
+>>>>>>> d589424bfa0f46c9d68b358c8f41568d2d12996b
 		mPoint.addObserver(mockedViewCtrl);
 	}
 	
