@@ -76,7 +76,7 @@ public class GameStatusView implements Observer{
 		float fromY = 1.0F;
 		float toY = 2.5F;
 		long durationMillis = 30;
-		Point point = (Point) o;
+		TotalPoint point = (TotalPoint) o;
 		txtPoint.setText(Integer.toString(point.getPoint()));
 		ScaleAnimation animation = new ScaleAnimation(fromX, toX, fromY, toY);
 		animation.setDuration(durationMillis);

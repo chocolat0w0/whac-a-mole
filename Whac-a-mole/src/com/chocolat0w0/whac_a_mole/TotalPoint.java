@@ -2,11 +2,11 @@ package com.chocolat0w0.whac_a_mole;
 
 import java.util.Observable;
 
-public class Point extends Observable {
+public class TotalPoint extends Observable {
 
 	private int totalPoint;
 	
-	public Point() {
+	public TotalPoint() {
 		this.totalPoint = 0;
 	}
 	
