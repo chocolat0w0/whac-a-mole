@@ -25,14 +25,14 @@ public class HolesView extends View implements Observer {
 	private HoleArea[] holeArea = new HoleArea[Holes.HOLE_NUMBER];
 	private Bitmap[] mBitmap = new Bitmap[Holes.HOLE_NUMBER];
 	
-	private HoleView[] holeView = new HoleView[Holes.HOLE_NUMBER];
+	private HoleImage[] holeView = new HoleImage[Holes.HOLE_NUMBER];
 	
 	public HolesView(Context context, Holes holes) {
 		super(context);
 		for (int i = 0; i < Holes.HOLE_NUMBER; i++) {
 			mPaint[i] = new Paint();
 			mBitmap[i] = BitmapFactory.decodeResource(getResources(), R.drawable.hole);
-			holeView[i] = new HoleView(i, holes.getMoleAt(i));
+			holeView[i] = new HoleImage(i, holes.getMoleAt(i));
 		}
 		WindowManager wm = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
 		Display disp = wm.getDefaultDisplay();
@@ -110,7 +110,7 @@ public class HolesView extends View implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		Holes holes = (Holes) o;
-		ViewController.debugInfo("ここきた？");
+		GameStatusView.debugInfo("ここきた？");
 		for (int i = 0; i < Holes.HOLE_NUMBER; i++) {
 			holeView[i].changeMole(holes.getMoleAt(i));
 		}
@@ -161,7 +161,7 @@ public class HolesView extends View implements Observer {
 		}
 	}
 
-	public void popGotPoint(int holeNum, Mole mole) {
+	public void popGotPoint(int holeNum, IMole mole) {
 		// TODO 子viewをもう一枚つくって操作する？
 		Bitmap image = null;
 		switch(mole.getType()) {

@@ -15,7 +15,7 @@ public class Holes extends Observable{
 	// モグラ出現確率。数字が大きいほど低確率。モグラの種類数より大きい必要がある。全モグラ同確率。
 	static final int RANDOM_FACTOR = 10;
 	
-	private List<Mole> moles = new ArrayList<Mole>(HOLE_NUMBER);
+	private List<IMole> moles = new ArrayList<IMole>(HOLE_NUMBER);
 	
 	public Holes() {
 		long birthTime = System.currentTimeMillis();
@@ -55,8 +55,8 @@ public class Holes extends Observable{
 		}
 	}
 	
-	Mole getMoleAt(int holeNum) {
-		for(Mole m : moles) {
+	IMole getMoleAt(int holeNum) {
+		for(IMole m : moles) {
 			if (m.getHoleNumber() == holeNum) {
 				return m;
 			}
