@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 
 public class HighPointMoleTest extends TestCase {
 
-	private Mole mMole;
+	private IMole mMole;
 	private long birthTime = 0;
 	private int holeNumber = 0;
 

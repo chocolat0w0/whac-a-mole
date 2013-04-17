@@ -4,15 +4,15 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 
-class HoleView {
+class HoleImage {
 
-	private Mole mole = null;
+	private IMole mole = null;
 	
-	public HoleView(int holeNum, Mole mole) {
+	public HoleImage(int holeNum, IMole mole) {
 		this.mole = mole;
 	}
 	
-	public void changeMole(Mole mole) {
+	public void changeMole(IMole mole) {
 		this.mole = mole;
 	}
 	

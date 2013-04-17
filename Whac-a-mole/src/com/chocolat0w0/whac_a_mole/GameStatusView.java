@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class ViewController implements Observer{
+public class GameStatusView implements Observer{
 	
 	private RelativeLayout viewGroup = null;
 	private TextView txtTimer = null;
@@ -21,7 +21,7 @@ public class ViewController implements Observer{
 	private RelativeLayout.LayoutParams layout = null;
 	private static TextView txtDebug = null;
 	
-	public ViewController(Context context, RelativeLayout viewGroup) {
+	public GameStatusView(Context context, RelativeLayout viewGroup) {
 		this.viewGroup = viewGroup;
 		this.context = context;
 	}
@@ -77,7 +77,6 @@ public class ViewController implements Observer{
 		float toY = 2.5F;
 		long durationMillis = 30;
 		Point point = (Point) o;
-//		Point point = (Point) arg;
 		txtPoint.setText(Integer.toString(point.getPoint()));
 		ScaleAnimation animation = new ScaleAnimation(fromX, toX, fromY, toY);
 		animation.setDuration(durationMillis);

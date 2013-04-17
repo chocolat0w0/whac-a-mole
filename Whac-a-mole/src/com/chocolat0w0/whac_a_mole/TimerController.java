@@ -11,7 +11,7 @@ public class TimerController extends TimerTask {
 	static final long LIMIT_TIME_MILLIS = 10 * 1000;
 	
 	private Handler mHandler = null;
-	private ViewController viewController = null;
+	private GameStatusView viewController = null;
 	private HolesView holesView = null;
 	private Holes holes = null;
 	private Timer mTimer = null;
@@ -19,7 +19,7 @@ public class TimerController extends TimerTask {
 	private long elapsedTimeMillis = 0;
 	
 	
-	public TimerController(ViewController viewCtr, HolesView holesView, Holes holes, Timer mTimer) {
+	public TimerController(GameStatusView viewCtr, HolesView holesView, Holes holes, Timer mTimer) {
 		super();
 		mHandler = new Handler();
 		this.viewController = viewCtr;
