@@ -50,10 +50,6 @@ class HoleImage {
 		return R.drawable.hole;
 	}
 
-	public Bitmap getImage() {
-		return image;
-	}
-	
 	public void draw(Canvas canvas) {
 		canvas.drawBitmap(image,
 				getLeft(),
