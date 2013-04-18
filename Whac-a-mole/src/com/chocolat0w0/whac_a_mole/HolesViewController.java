@@ -12,11 +12,10 @@ class HolesViewController {
 	private HolesView mHolesView;
 	private MolesController mMolesCtr;
 	private TotalPoint mPoint;
-	private HoleImage[] holeImage = new HoleImage[MolesController.HOLE_NUMBER];
-//	private List<HoleImage> mHoleImages = new ArrayList<HoleImage>(MolesController.HOLE_NUMBER);
+	private List<HoleImage> mHoleImages = new ArrayList<HoleImage>(MolesController.HOLE_NUMBER);
 
 	public HolesViewController(Context context, MolesController molesController, TotalPoint point) {
-		mHolesView = new HolesView(context, molesController, holeImage);
+		mHolesView = new HolesView(context, molesController, mHoleImages);
 		this.mMolesCtr = molesController;
 		this.mPoint = point;
 		molesController.addObserver(mHolesView);
@@ -44,8 +43,8 @@ class HolesViewController {
 	
 	public boolean isExisted(float x, float y) {
 		
-		for (int i = 0; i < MolesController.HOLE_NUMBER; i++) {
-			if(holeImage[i].isContain(x, y)) {
+		for(HoleImage h : mHoleImages) {
+			if(h.isContain(x, y)) {
 				return true;
 			}
 		}
@@ -53,14 +52,14 @@ class HolesViewController {
 	}
 	
 	private int getTouchedHoleNum(float x, float y) {
-		for (int i = 0; i < MolesController.HOLE_NUMBER; i++) {
-//			if(holeArea[i].isContain(x, y)) {
-//				return i;
-//			}
-			if(holeImage[i].isContain(x, y)) {
-				return i;
+		int holeNum = 0;
+		for(HoleImage h : mHoleImages) {
+			if(h.isContain(x, y)) {
+				return holeNum;
 			}
+			holeNum++;
 		}
+		
 		// TODO: error処理
 		return -1;
 	}
