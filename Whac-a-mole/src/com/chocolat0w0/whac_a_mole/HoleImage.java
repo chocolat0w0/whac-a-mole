@@ -2,22 +2,26 @@ package com.chocolat0w0.whac_a_mole;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Point;
 
 
 class HoleImage {
 
 	private IMole mole = null;
-	private Bitmap image;
-	private float left;
-	private float right;
-	private float top;
-	private float bottom;
+	private Bitmap image = null;
+	private float left = 0;
+	private float right = 0;
+	private float top = 0;
+	private float bottom = 0;
+	private Paint mPaint = null;
 	
 	public HoleImage(IMole mole, HolesView holesView, Point windowSize) {
 		this.mole = mole;
 		this.image = BitmapFactory.decodeResource(holesView.getResources(), getImageId());
 		adjustImageSize(windowSize.x);
+		mPaint = new Paint();
 	}
 	
 	public void changeMole(IMole mole, HolesView holesView, Point windowSize) {
@@ -48,6 +52,13 @@ class HoleImage {
 
 	public Bitmap getImage() {
 		return image;
+	}
+	
+	public void draw(Canvas canvas) {
+		canvas.drawBitmap(image,
+				getLeft(),
+				getTop(),
+				mPaint);
 	}
 	
 	private void adjustImageSize(int windowSizeX) {
