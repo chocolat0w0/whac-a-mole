@@ -2,6 +2,8 @@ package com.chocolat0w0.whac_a_mole;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -19,34 +21,36 @@ import android.view.WindowManager;
 @SuppressLint("NewApi")
 public class HolesView extends View implements Observer {
 	
-	private Paint[] mPaint = new Paint[MolesController.HOLE_NUMBER];
+	private Paint mPaint = null;
 	private Point windowSize = null;
 	private Canvas canvas;
 	private Bitmap[] mBitmap = new Bitmap[MolesController.HOLE_NUMBER];
 	
-	private HoleImage[] holeImage = new HoleImage[MolesController.HOLE_NUMBER];
+	private List<HoleImage> mHoleImage = new ArrayList<HoleImage>(MolesController.HOLE_NUMBER);
 	
-	public HolesView(Context context, MolesController molesController, HoleImage[] holeImages) {
+	public HolesView(Context context, MolesController molesController,
+			List<HoleImage> holeImages) {
 		super(context);
-		this.holeImage = holeImages;
+		this.mPaint = new Paint();
+		this.mHoleImage = holeImages;
 		WindowManager wm = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
 		Display disp = wm.getDefaultDisplay();
 		windowSize = new Point();
 		overrideGetSize(disp, windowSize);
 		for (int i = 0; i < MolesController.HOLE_NUMBER; i++) {
-			mPaint[i] = new Paint();
 			mBitmap[i] = BitmapFactory.decodeResource(getResources(), R.drawable.hole);
-			holeImage[i] = new HoleImage(molesController.getMoleAt(i), this, windowSize);
+			mHoleImage.add(new HoleImage(molesController.getMoleAt(i), this, windowSize));
 		}
+		
 	}
-	
+
 	@Override
 	protected void onDraw(Canvas canvas) {
 		this.canvas = canvas;
 		for (int y = 0; y < MolesController.HOLE_COLUMN; y++) {
 			for (int x = 0; x < MolesController.HOLE_ROW; x++) {
-				Bitmap image = holeImage[calcHoleNumber(x,y)].getImage();
-				holeImage[calcHoleNumber(x, y)].setHoleArea(x, y, windowSize);
+				Bitmap image = mHoleImage.get(calcHoleNumber(x, y)).getImage();
+				mHoleImage.get(calcHoleNumber(x, y)).setHoleArea(x, y, windowSize);
 				drawHole(x, y, image);
 			}
 		}
@@ -56,9 +60,9 @@ public class HolesView extends View implements Observer {
 	private void drawHole(int x, int y, Bitmap image) {
 		int holeNum = calcHoleNumber(x, y);
 		canvas.drawBitmap(image,
-				holeImage[holeNum].getLeft(),
-				holeImage[holeNum].getTop(),
-				mPaint[holeNum]);
+				mHoleImage.get(holeNum).getLeft(),
+				mHoleImage.get(holeNum).getTop(),
+				mPaint);
 	}
 
 	private int calcHoleNumber(int x, int y) {
@@ -69,8 +73,10 @@ public class HolesView extends View implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		MolesController molesController = (MolesController) o;
-		for (int i = 0; i < MolesController.HOLE_NUMBER; i++) {
-			holeImage[i].changeMole(molesController.getMoleAt(i), this, windowSize);
+		int holeNum = 0;
+		for(HoleImage h : mHoleImage) {
+			h.changeMole(molesController.getMoleAt(holeNum), this, windowSize);
+			holeNum++;
 		}
 	}
 
@@ -99,28 +105,28 @@ public class HolesView extends View implements Observer {
 	}
 
 
-	public void popGotPoint(int holeNum, IMole mole) {
-		// TODO 子viewをもう一枚つくって操作する？
-		Bitmap image = null;
-		switch(mole.getType()) {
-		case MIDDLE:
-			image = BitmapFactory.decodeResource(getResources(), R.drawable.p300);
-			break;
-		case HIGH:
-			image = BitmapFactory.decodeResource(getResources(), R.drawable.p500);
-			break;
-		case MINUS:
-			image = BitmapFactory.decodeResource(getResources(), R.drawable.m600);
-			break;
-		default:
-			image = BitmapFactory.decodeResource(getResources(), R.drawable.p300);
-			break;
-		}
-		
-		 canvas.drawBitmap(image,
-				holeImage[holeNum].getLeft(),
-				holeImage[holeNum].getTop(),
-				mPaint[holeNum]);
-	}
+//	public void popGotPoint(int holeNum, IMole mole) {
+//		// TODO 子viewをもう一枚つくって操作する？
+//		Bitmap image = null;
+//		switch(mole.getType()) {
+//		case MIDDLE:
+//			image = BitmapFactory.decodeResource(getResources(), R.drawable.p300);
+//			break;
+//		case HIGH:
+//			image = BitmapFactory.decodeResource(getResources(), R.drawable.p500);
+//			break;
+//		case MINUS:
+//			image = BitmapFactory.decodeResource(getResources(), R.drawable.m600);
+//			break;
+//		default:
+//			image = BitmapFactory.decodeResource(getResources(), R.drawable.p300);
+//			break;
+//		}
+//		
+//		 canvas.drawBitmap(image,
+//				holeImage[holeNum].getLeft(),
+//				holeImage[holeNum].getTop(),
+//				mPaint[holeNum]);
+//	}
 
 }
