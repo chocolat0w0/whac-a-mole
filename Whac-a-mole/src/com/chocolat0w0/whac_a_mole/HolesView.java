@@ -23,7 +23,6 @@ public class HolesView extends View implements Observer {
 	
 	private Paint mPaint = null;
 	private Point windowSize = null;
-	private Canvas canvas;
 	private Bitmap[] mBitmap = new Bitmap[MolesController.HOLE_NUMBER];
 	
 	private List<HoleImage> mHoleImage = new ArrayList<HoleImage>(MolesController.HOLE_NUMBER);
@@ -46,25 +45,16 @@ public class HolesView extends View implements Observer {
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		this.canvas = canvas;
 		for (int y = 0; y < MolesController.HOLE_COLUMN; y++) {
 			for (int x = 0; x < MolesController.HOLE_ROW; x++) {
-				Bitmap image = mHoleImage.get(calcHoleNumber(x, y)).getImage();
 				mHoleImage.get(calcHoleNumber(x, y)).setHoleArea(x, y, windowSize);
-				drawHole(x, y, image);
 			}
+		}
+		for(HoleImage h : mHoleImage) {
+			h.draw(canvas);
 		}
 	}
 	
-	
-	private void drawHole(int x, int y, Bitmap image) {
-		int holeNum = calcHoleNumber(x, y);
-		canvas.drawBitmap(image,
-				mHoleImage.get(holeNum).getLeft(),
-				mHoleImage.get(holeNum).getTop(),
-				mPaint);
-	}
-
 	private int calcHoleNumber(int x, int y) {
 		int holeNum = x * MolesController.HOLE_COLUMN + y;
 		return holeNum;
