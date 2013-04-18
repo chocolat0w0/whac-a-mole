@@ -51,8 +51,8 @@ class HoleImage {
 	}
 	
 	private void adjustImageSize(int windowSizeX) {
-		if(windowSizeX / Holes.HOLE_COLUMN < image.getWidth()) {
-			final int resizedWidth = windowSizeX / (Holes.HOLE_COLUMN+1) - 10;
+		if(windowSizeX / MolesController.HOLE_COLUMN < image.getWidth()) {
+			final int resizedWidth = windowSizeX / (MolesController.HOLE_COLUMN+1) - 10;
 			image = Bitmap.createScaledBitmap(image, 
 					resizedWidth, 
 					image.getHeight() * resizedWidth / image.getWidth(), 
@@ -61,8 +61,8 @@ class HoleImage {
 	}
 	
 	public void setHoleArea(int x, int y, Point windowSize) {
-		setImageArea(windowSize.x / (Holes.HOLE_ROW+1) * (x+1),
-				windowSize.y / (Holes.HOLE_COLUMN+1) * (y+1));
+		setImageArea(windowSize.x / (MolesController.HOLE_ROW+1) * (x+1),
+				windowSize.y / (MolesController.HOLE_COLUMN+1) * (y+1));
 	}
 	
 	public void setImageArea(int centerX, int centerY) {

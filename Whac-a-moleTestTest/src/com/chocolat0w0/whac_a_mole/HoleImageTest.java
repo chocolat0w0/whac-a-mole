@@ -5,7 +5,7 @@ import static org.mockito.Mockito.*;
 import android.test.InstrumentationTestCase;
 import com.chocolat0w0.whac_a_mole.MoleType.EnumMoleType;
 
-public class HoleViewTest extends InstrumentationTestCase {
+public class HoleImageTest extends InstrumentationTestCase {
 
 	HoleImage holeView;
 	IMole mockedMole;
@@ -16,7 +16,7 @@ public class HoleViewTest extends InstrumentationTestCase {
 		mockedMole = mock(IMole.class);
 		// モックのgetTypeを上書き
 		when(mockedMole.getType()).thenReturn(EnumMoleType.MIDDLE);
-		holeView = new HoleImage(0, mockedMole);
+		holeView = new HoleImage(mockedMole, null, null);
 	}
 	
 	public void test_getImageによって_正しい画像が取得される() throws Exception {

@@ -24,12 +24,12 @@ public class MainActivity extends Activity implements OnClickListener {
 	
 	private Button btnStart;
 	private RelativeLayout viewGroup = null;
-	private GameStatusView viewController = null;
-	private HolesView holeView = null;
-	private HolesController holesController = null;
+	private GameStatusView mGameStatusView = null;
+	private HolesView mHolesView = null;
+	private HolesViewController mHolesController = null;
 	private Timer mTimer;
-	private TimerController timerController;
-	private Holes holes = null;
+	private TimerController mTimerController;
+	private MolesController mMolesCtr = null;
 	private TotalPoint mPoint = null;
 	
 	@Override
@@ -37,14 +37,14 @@ public class MainActivity extends Activity implements OnClickListener {
 //		Debug.startMethodTracing("whac.trace");
 		super.onCreate(savedInstanceState);
 		viewGroup = new RelativeLayout(this);
-		viewController = new GameStatusView(this, viewGroup);
+		mGameStatusView = new GameStatusView(this, viewGroup);
 		mPoint  = new TotalPoint();
-		mPoint.addObserver(viewController);
-		holes = new Holes();
-		holesController = new HolesController(this, holes, mPoint);
-		holesController.addViewGroup(viewGroup);
-		viewController.initDisplay(getLayoutInflater().inflate(R.layout.game_menu, viewGroup, isChild()));
-		viewController.displayStartButton();
+		mPoint.addObserver(mGameStatusView);
+		mMolesCtr = new MolesController();
+		mHolesController = new HolesViewController(this, mMolesCtr, mPoint);
+		mHolesController.addViewGroup(viewGroup);
+		mGameStatusView.initDisplay(getLayoutInflater().inflate(R.layout.game_menu, viewGroup, isChild()));
+		mGameStatusView.displayStartButton();
 		setContentView(viewGroup);
 		setListenerOnStartButton();
 	}
@@ -74,25 +74,16 @@ public class MainActivity extends Activity implements OnClickListener {
 	}
 
 	private void startGame() {
-		viewController.closeStartBtn();
+		mGameStatusView.closeStartBtn();
 		mPoint.init();
 		mTimer = new Timer(true);
-//		timerController = new TimerController(viewController, holesView, holes, mTimer);
-		timerController = new TimerController(viewController, holesController, holes, mTimer);
-		mTimer.schedule(timerController, TIMER_DELAY_MS, TIMER_PERIOD_MS);
+		mTimerController = new TimerController(mGameStatusView, mHolesController, mMolesCtr, mTimer);
+		mTimer.schedule(mTimerController, TIMER_DELAY_MS, TIMER_PERIOD_MS);
 	}
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		// TODO: Viewに処理を任せる
-//		if ( holesView.isExisted(event.getX(), event.getY() - TITLE_BAR_HEIGHT)) {
-//			int touchedHoleNum = holesView.getTouchedHoleNum(event.getX(), event.getY() - TITLE_BAR_HEIGHT);
-//			int point = holes.getTouchedMolePoint(touchedHoleNum);
-//			holes.touch(touchedHoleNum);
-//			mPoint.add(point);
-//		}
-		holesController.touch(event);
-		
+		mHolesController.touch(event);
 		return true;
 	}
 
