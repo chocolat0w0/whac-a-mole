@@ -13,29 +13,29 @@ public class TimerController extends TimerTask {
 	private Handler mHandler = null;
 	private GameStatusView viewController = null;
 	private HolesView holesView = null;
-	private HolesController holesController = null;
-	private Holes holes = null;
+	private HolesViewController holesController = null;
+	private MolesController molesController = null;
 	private Timer mTimer = null;
 	private long startTimeMillis = 0;
 	private long elapsedTimeMillis = 0;
 	
 	
-	public TimerController(GameStatusView viewCtr, HolesView holesView, Holes holes, Timer mTimer) {
+	public TimerController(GameStatusView viewCtr, HolesView holesView, MolesController molesController, Timer mTimer) {
 		super();
 		mHandler = new Handler();
 		this.viewController = viewCtr;
 		this.holesView = holesView;
-		this.holes = holes;
+		this.molesController = molesController;
 		this.mTimer = mTimer;
 		startTimeMillis = System.currentTimeMillis();
 	}
 	
-	public TimerController(GameStatusView viewCtr, HolesController holesController, Holes holes, Timer mTimer) {
+	public TimerController(GameStatusView viewCtr, HolesViewController holesController, MolesController molesController, Timer mTimer) {
 		super();
 		mHandler = new Handler();
 		this.viewController = viewCtr;
 		this.holesController = holesController;
-		this.holes = holes;
+		this.molesController = molesController;
 		this.mTimer = mTimer;
 		startTimeMillis = System.currentTimeMillis();
 	}
@@ -49,8 +49,8 @@ public class TimerController extends TimerTask {
 				elapsedTimeMillis = System.currentTimeMillis() - startTimeMillis;
 				if(LIMIT_TIME_MILLIS <= elapsedTimeMillis) {
 					mTimer.cancel();
-					holes.removeAllMole();
-					holes.notifyObservers();
+					molesController.removeAllMole();
+					molesController.notifyObservers();
 					viewController.refresh();
 					viewController.displayEndMenu();
 					viewController.refresh();
@@ -60,12 +60,12 @@ public class TimerController extends TimerTask {
 				}
 
 				viewController.changeTime(LIMIT_TIME_MILLIS - elapsedTimeMillis);
-				int randomHoleNum = holes.getRandomHoleNumber();
-				holes.createMole(randomHoleNum, new Random().nextInt(3));
-				for (int i = 0; i < Holes.HOLE_NUMBER; i++) {
-					holes.removeMoleLifeTimeEnded(i, System.currentTimeMillis());
+				int randomHoleNum = molesController.getRandomHoleNumber();
+				molesController.createMole(randomHoleNum, new Random().nextInt(3));
+				for (int i = 0; i < MolesController.HOLE_NUMBER; i++) {
+					molesController.removeMoleLifeTimeEnded(i, System.currentTimeMillis());
 				}
-				holes.notifyObservers();
+				molesController.notifyObservers();
 				viewController.refresh();
 //				holesView.invalidate();
 				holesController.refresh();

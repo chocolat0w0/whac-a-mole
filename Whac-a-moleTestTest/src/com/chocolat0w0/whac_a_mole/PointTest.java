@@ -9,32 +9,22 @@ import android.test.InstrumentationTestCase;
 
 public class PointTest extends InstrumentationTestCase {
 
-<<<<<<< HEAD
-	private Point mPoint;
-	private GameStatusView mockedViewCtrl;
-=======
 	private TotalPoint mPoint;
-	private ViewController mockedViewCtrl;
->>>>>>> d589424bfa0f46c9d68b358c8f41568d2d12996b
+	private HolesView mockedHolesView;
 	
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-<<<<<<< HEAD
-		mPoint = new Point();
-		mockedViewCtrl = mock(GameStatusView.class);
-=======
 		mPoint = new TotalPoint();
-		mockedViewCtrl = mock(ViewController.class);
->>>>>>> d589424bfa0f46c9d68b358c8f41568d2d12996b
-		mPoint.addObserver(mockedViewCtrl);
+		mockedHolesView = mock(HolesView.class);
+		mPoint.addObserver(mockedHolesView);
 	}
 	
 	public void test_pointの初期化がされる() throws Exception {
 		int expectedPoint = 0;
 		mPoint.init();
 		assertEquals(expectedPoint, mPoint.getPoint());
-		verify(mockedViewCtrl).update(any(Observable.class), any());
+		verify(mockedHolesView).update(any(Observable.class), any());
 	}
 	
 	public void test_pointの加算がされる() throws Exception {
@@ -43,6 +33,6 @@ public class PointTest extends InstrumentationTestCase {
 		int expectedPoint = basePoint + addedPoint;
 		mPoint.add(addedPoint);
 		assertEquals(expectedPoint, mPoint.getPoint());
-		verify(mockedViewCtrl).update(any(Observable.class), any());
+		verify(mockedHolesView).update(any(Observable.class), any());
 	}
 }
