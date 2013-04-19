@@ -16,15 +16,18 @@ class HoleImage {
 	private float top = 0;
 	private float bottom = 0;
 	private Paint mPaint = null;
+	private int row = 0;
+	private int column = 0;
 	
 	public HoleImage(IMole mole, HolesView holesView, Point windowSize) {
 		this.mole = mole;
 		this.image = BitmapFactory.decodeResource(holesView.getResources(), getImageId());
 		adjustImageSize(windowSize.x);
+		calcRowColumn(mole.getHoleNumber());
 		mPaint = new Paint();
 	}
 	
-	public void changeMole(IMole mole, HolesView holesView, Point windowSize) {
+	void changeMole(IMole mole, HolesView holesView, Point windowSize) {
 		this.mole = mole;
 		this.image = BitmapFactory.decodeResource(holesView.getResources(), getImageId());
 		adjustImageSize(windowSize.x);
@@ -50,7 +53,7 @@ class HoleImage {
 		return R.drawable.hole;
 	}
 
-	public void draw(Canvas canvas) {
+	void draw(Canvas canvas) {
 		canvas.drawBitmap(image,
 				getLeft(),
 				getTop(),
@@ -67,38 +70,43 @@ class HoleImage {
 		}
 	}
 	
-	public void setHoleArea(int x, int y, Point windowSize) {
-		setImageArea(windowSize.x / (MolesController.HOLE_ROW+1) * (x+1),
-				windowSize.y / (MolesController.HOLE_COLUMN+1) * (y+1));
+	void setHoleArea(Point windowSize) {
+		setImageCorner(windowSize.x / (MolesController.HOLE_ROW+1) * (row+1),
+				windowSize.y / (MolesController.HOLE_COLUMN+1) * (column+1));
 	}
 	
-	public void setImageArea(int centerX, int centerY) {
+	void setImageCorner(int centerX, int centerY) {
 		left = centerX - image.getWidth() / 2;
 		right = centerX + image.getWidth() / 2;
 		top = centerY - image.getHeight() / 2;
 		bottom = centerY + image.getHeight() / 2;
 	}
 	
-	public boolean isContain(float x, float y) {
+	void calcRowColumn(int holeNum) {
+		row = holeNum % MolesController.HOLE_ROW;
+		column = holeNum / MolesController.HOLE_COLUMN;
+	}
+	
+	boolean isContain(float x, float y) {
 		if (left <= x && x <= right && top <= y && y <= bottom ) {
 			return true;
 		}
 		return false;
 	}
 
-	public float getLeft() {
+	float getLeft() {
 		return left;
 	}
 
-	public float getRight() {
+	float getRight() {
 		return right;
 	}
 	
-	public float getTop() {
+	float getTop() {
 		return top;
 	}
 	
-	public float getBottom() {
+	float getBottom() {
 		return bottom;
 	}
 

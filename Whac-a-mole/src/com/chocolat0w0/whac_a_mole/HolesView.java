@@ -21,7 +21,6 @@ import android.view.WindowManager;
 @SuppressLint("NewApi")
 public class HolesView extends View implements Observer {
 	
-	private Paint mPaint = null;
 	private Point windowSize = null;
 	private Bitmap[] mBitmap = new Bitmap[MolesController.HOLE_NUMBER];
 	
@@ -30,7 +29,6 @@ public class HolesView extends View implements Observer {
 	public HolesView(Context context, MolesController molesController,
 			List<HoleImage> holeImages) {
 		super(context);
-		this.mPaint = new Paint();
 		this.mHoleImage = holeImages;
 		WindowManager wm = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
 		Display disp = wm.getDefaultDisplay();
@@ -45,19 +43,10 @@ public class HolesView extends View implements Observer {
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		for (int y = 0; y < MolesController.HOLE_COLUMN; y++) {
-			for (int x = 0; x < MolesController.HOLE_ROW; x++) {
-				mHoleImage.get(calcHoleNumber(x, y)).setHoleArea(x, y, windowSize);
-			}
-		}
 		for(HoleImage h : mHoleImage) {
+			h.setHoleArea(windowSize);
 			h.draw(canvas);
 		}
-	}
-	
-	private int calcHoleNumber(int x, int y) {
-		int holeNum = x * MolesController.HOLE_COLUMN + y;
-		return holeNum;
 	}
 	
 	@Override
