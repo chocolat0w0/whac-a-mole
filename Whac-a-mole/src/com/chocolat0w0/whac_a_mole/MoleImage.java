@@ -7,7 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 
 
-class HoleImage {
+class MoleImage {
 
 	private IMole mole = null;
 	private Bitmap image = null;
@@ -19,7 +19,7 @@ class HoleImage {
 	private int row = 0;
 	private int column = 0;
 	
-	public HoleImage(IMole mole, HolesView holesView, Point windowSize) {
+	public MoleImage(IMole mole, MolesView holesView, Point windowSize) {
 		this.mole = mole;
 		this.image = BitmapFactory.decodeResource(holesView.getResources(), getImageId());
 		adjustImageSize(windowSize.x);
@@ -27,7 +27,7 @@ class HoleImage {
 		mPaint = new Paint();
 	}
 	
-	void changeMole(IMole mole, HolesView holesView, Point windowSize) {
+	void changeMole(IMole mole, MolesView holesView, Point windowSize) {
 		this.mole = mole;
 		this.image = BitmapFactory.decodeResource(holesView.getResources(), getImageId());
 		adjustImageSize(windowSize.x);
@@ -61,8 +61,8 @@ class HoleImage {
 	}
 	
 	private void adjustImageSize(int windowSizeX) {
-		if(windowSizeX / MolesController.HOLE_COLUMN < image.getWidth()) {
-			final int resizedWidth = windowSizeX / (MolesController.HOLE_COLUMN+1) - 10;
+		if(windowSizeX / Moles.HOLE_COLUMN < image.getWidth()) {
+			final int resizedWidth = windowSizeX / (Moles.HOLE_COLUMN+1) - 10;
 			image = Bitmap.createScaledBitmap(image, 
 					resizedWidth, 
 					image.getHeight() * resizedWidth / image.getWidth(), 
@@ -71,8 +71,8 @@ class HoleImage {
 	}
 	
 	void setHoleArea(Point windowSize) {
-		setImageCorner(windowSize.x / (MolesController.HOLE_ROW+1) * (row+1),
-				windowSize.y / (MolesController.HOLE_COLUMN+1) * (column+1));
+		setImageCorner(windowSize.x / (Moles.HOLE_ROW+1) * (row+1),
+				windowSize.y / (Moles.HOLE_COLUMN+1) * (column+1));
 	}
 	
 	void setImageCorner(int centerX, int centerY) {
@@ -83,8 +83,8 @@ class HoleImage {
 	}
 	
 	void calcRowColumn(int holeNum) {
-		row = holeNum % MolesController.HOLE_ROW;
-		column = holeNum / MolesController.HOLE_COLUMN;
+		row = holeNum % Moles.HOLE_ROW;
+		column = holeNum / Moles.HOLE_COLUMN;
 	}
 	
 	boolean isContain(float x, float y) {

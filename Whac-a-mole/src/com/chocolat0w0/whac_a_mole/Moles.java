@@ -7,7 +7,7 @@ import java.util.Random;
 
 import com.chocolat0w0.whac_a_mole.MoleType.EnumMoleType;
 
-public class MolesController extends Observable{
+public class Moles extends Observable{
 	
 	static final int HOLE_ROW = 3;
 	static final int HOLE_COLUMN = 3;
@@ -17,7 +17,7 @@ public class MolesController extends Observable{
 	
 	private List<IMole> moles = new ArrayList<IMole>(HOLE_NUMBER);
 	
-	public MolesController() {
+	public Moles() {
 		long birthTime = System.currentTimeMillis();
 		for (int i = 0; i < HOLE_NUMBER; i++) {
 			moles.add(new NullMole(birthTime, i));
