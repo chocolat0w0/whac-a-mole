@@ -10,13 +10,13 @@ import android.test.InstrumentationTestCase;
 public class PointTest extends InstrumentationTestCase {
 
 	private TotalPoint mPoint;
-	private HolesView mockedHolesView;
+	private MolesView mockedHolesView;
 	
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		mPoint = new TotalPoint();
-		mockedHolesView = mock(HolesView.class);
+		mockedHolesView = mock(MolesView.class);
 		mPoint.addObserver(mockedHolesView);
 	}
 	

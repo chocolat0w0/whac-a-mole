@@ -15,35 +15,38 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.view.Display;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 
 @SuppressLint("NewApi")
-public class HolesView extends View implements Observer {
+public class MolesView extends View implements Observer {
 	
 	private Point windowSize = null;
-	private Bitmap[] mBitmap = new Bitmap[MolesController.HOLE_NUMBER];
+	private Bitmap[] mBitmap = new Bitmap[Moles.HOLE_NUMBER];
 	
-	private List<HoleImage> mHoleImage = new ArrayList<HoleImage>(MolesController.HOLE_NUMBER);
+	private List<MoleImage> mMoleImage = new ArrayList<MoleImage>(Moles.HOLE_NUMBER);
+	private Moles mMoles = null;
+	private TotalPoint mTotalPoint;
 	
-	public HolesView(Context context, MolesController molesController,
-			List<HoleImage> holeImages) {
+	public MolesView(Context context, Moles moles, TotalPoint totalPoint) {
 		super(context);
-		this.mHoleImage = holeImages;
+		this.mMoles = moles;
+		this.mTotalPoint = totalPoint;
 		WindowManager wm = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
 		Display disp = wm.getDefaultDisplay();
 		windowSize = new Point();
 		overrideGetSize(disp, windowSize);
-		for (int i = 0; i < MolesController.HOLE_NUMBER; i++) {
+		for (int i = 0; i < Moles.HOLE_NUMBER; i++) {
 			mBitmap[i] = BitmapFactory.decodeResource(getResources(), R.drawable.hole);
-			mHoleImage.add(new HoleImage(molesController.getMoleAt(i), this, windowSize));
+			mMoleImage.add(new MoleImage(moles.getMoleAt(i), this, windowSize));
 		}
 		
 	}
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		for(HoleImage h : mHoleImage) {
+		for(MoleImage h : mMoleImage) {
 			h.setHoleArea(windowSize);
 			h.draw(canvas);
 		}
@@ -51,10 +54,10 @@ public class HolesView extends View implements Observer {
 	
 	@Override
 	public void update(Observable o, Object arg) {
-		MolesController molesController = (MolesController) o;
+		Moles moles = (Moles) o;
 		int holeNum = 0;
-		for(HoleImage h : mHoleImage) {
-			h.changeMole(molesController.getMoleAt(holeNum), this, windowSize);
+		for(MoleImage h : mMoleImage) {
+			h.changeMole(moles.getMoleAt(holeNum), this, windowSize);
 			holeNum++;
 		}
 	}
@@ -82,6 +85,41 @@ public class HolesView extends View implements Observer {
 			e.printStackTrace();
 		}
 	}
+	
+	void touch(MotionEvent event) {
+		if(!isExisted(event.getX(), event.getY() - 100)) {
+			return;
+		}
+		int touchedHoleNum = getTouchedHoleNum(event.getX(), event.getY() - 100);
+		int point = mMoles.getTouchedMolePoint(touchedHoleNum);
+		mTotalPoint.add(point);
+		mMoles.touch(touchedHoleNum);
+		
+	}
+	
+	private boolean isExisted(float x, float y) {
+		for(MoleImage h : mMoleImage) {
+			if(h.isContain(x, y)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private int getTouchedHoleNum(float x, float y) {
+		int holeNum = 0;
+		for(MoleImage h : mMoleImage) {
+			if(h.isContain(x, y)) {
+				return holeNum;
+			}
+			holeNum++;
+		}
+		
+		// TODO: error処理
+		return -1;
+	}
+	
+	
 
 
 //	public void popGotPoint(int holeNum, IMole mole) {

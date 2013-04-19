@@ -25,12 +25,11 @@ public class MainActivity extends Activity implements OnClickListener {
 	private Button btnStart;
 	private RelativeLayout viewGroup = null;
 	private GameStatusView mGameStatusView = null;
-	private HolesView mHolesView = null;
-	private HolesViewController mHolesController = null;
+	private MolesView mMolesView = null;
 	private Timer mTimer;
 	private TimerController mTimerController;
-	private MolesController mMolesCtr = null;
-	private TotalPoint mPoint = null;
+	private Moles mMoles = null;
+	private TotalPoint mTotalPoint = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +37,12 @@ public class MainActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		viewGroup = new RelativeLayout(this);
 		mGameStatusView = new GameStatusView(this, viewGroup);
-		mPoint  = new TotalPoint();
-		mPoint.addObserver(mGameStatusView);
-		mMolesCtr = new MolesController();
-		mHolesController = new HolesViewController(this, mMolesCtr, mPoint);
-		mHolesController.addViewGroup(viewGroup);
+		mTotalPoint  = new TotalPoint();
+		mTotalPoint.addObserver(mGameStatusView);
+		mMoles = new Moles();
+		mMolesView = new MolesView(this, mMoles, mTotalPoint);
+		viewGroup.addView(mMolesView);
+		mMoles.addObserver(mMolesView);
 		mGameStatusView.initDisplay(getLayoutInflater().inflate(R.layout.game_menu, viewGroup, isChild()));
 		mGameStatusView.displayStartButton();
 		setContentView(viewGroup);
@@ -75,15 +75,15 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	private void startGame() {
 		mGameStatusView.closeStartBtn();
-		mPoint.init();
+		mTotalPoint.init();
 		mTimer = new Timer(true);
-		mTimerController = new TimerController(mGameStatusView, mHolesController, mMolesCtr, mTimer);
+		mTimerController = new TimerController(mGameStatusView, mMolesView, mMoles, mTimer);
 		mTimer.schedule(mTimerController, TIMER_DELAY_MS, TIMER_PERIOD_MS);
 	}
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		mHolesController.touch(event);
+		mMolesView.touch(event);
 		return true;
 	}
 
