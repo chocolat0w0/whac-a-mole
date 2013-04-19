@@ -21,15 +21,15 @@ class HolesViewController {
 		molesController.addObserver(mHolesView);
 	}
 
-	public void addViewGroup(RelativeLayout viewGroup) {
+	void addViewGroup(RelativeLayout viewGroup) {
 		viewGroup.addView(mHolesView);
 	}
 
-	public void refresh() {
+	void refresh() {
 		mHolesView.invalidate();
 	}
 
-	public void touch(MotionEvent event) {
+	void touch(MotionEvent event) {
 		if(!isExisted(event.getX(), event.getY() - 100)) {
 			return;
 		}
@@ -39,10 +39,8 @@ class HolesViewController {
 		mMolesCtr.touch(touchedHoleNum);
 		
 	}
-
 	
-	public boolean isExisted(float x, float y) {
-		
+	private boolean isExisted(float x, float y) {
 		for(HoleImage h : mHoleImages) {
 			if(h.isContain(x, y)) {
 				return true;
