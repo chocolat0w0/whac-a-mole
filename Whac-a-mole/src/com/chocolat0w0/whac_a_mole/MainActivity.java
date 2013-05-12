@@ -4,7 +4,7 @@ import java.util.Timer;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Debug;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,9 +16,6 @@ public class MainActivity extends Activity implements OnClickListener {
 	
 	private static final String TAG = MainActivity.class.getSimpleName();
 	
-	// TODO: タイトルバー分タッチポイントがずれるのを修正。動的に取得したい。。。
-	private static final int TITLE_BAR_HEIGHT = 100;
-
 	private static final long TIMER_DELAY_MS = 100;
 	private static final long TIMER_PERIOD_MS = 100;
 	
@@ -30,10 +27,12 @@ public class MainActivity extends Activity implements OnClickListener {
 	private TimerController mTimerController;
 	private Moles mMoles = null;
 	private TotalPoint mTotalPoint = null;
+	private int titleBarHeight = 0;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 //		Debug.startMethodTracing("whac.trace");
+		Log.d(TAG, "onCreate");
 		super.onCreate(savedInstanceState);
 		viewGroup = new RelativeLayout(this);
 		mGameStatusView = new GameStatusView(this, viewGroup);
@@ -52,7 +51,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.activity_main, menu);
+//		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
 	}
 	
