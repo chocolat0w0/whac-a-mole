@@ -87,10 +87,10 @@ public class MolesView extends View implements Observer {
 	}
 	
 	void touch(MotionEvent event) {
-		if(!isExisted(event.getX(), event.getY() - 100)) {
+		if(!isExisted(event.getX(), event.getY())) {
 			return;
 		}
-		int touchedHoleNum = getTouchedHoleNum(event.getX(), event.getY() - 100);
+		int touchedHoleNum = getTouchedHoleNum(event.getX(), event.getY());
 		int point = mMoles.getTouchedMolePoint(touchedHoleNum);
 		mTotalPoint.add(point);
 		mMoles.touch(touchedHoleNum);
